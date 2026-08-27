@@ -663,53 +663,34 @@ function getImageUrl(imageUrl){
 ========================================== */
 
 async function load(){
-
-  if(!sb){
-
-    grid.innerHTML = `
-      <div class="message">
-        No se pudo conectar con Supabase.
-      </div>
-    `;
-
+  if(!cfg.SUPABASE_URL || cfg.SUPABASE_URL.includes('PEGA_AQUI')){
+    grid.innerHTML='<div style="color:#aaa;padding:20px">Configura Supabase en config.js para cargar el catálogo online.</div>';
     return;
-
   }
 
-
-  const { data, error } = await sb
+  const {data,error}=await sb
     .from('products')
-    .select('*')
-    .order('sort_order', {
-      ascending:true,
-      nullsFirst:false
-    });
-
+    .select('*');
 
   if(error){
-
-    console.error('Error Supabase:',error);
-
-    grid.innerHTML = `
-      <div class="message">
-        No se pudo cargar el catálogo.
-      </div>
-    `;
-
+    grid.innerHTML='<div style="color:#aaa;padding:20px">No se pudo cargar el catálogo. Revisa la configuración de Supabase.</div>';
+    console.error(error);
     return;
-
   }
 
+  products=data||[];
 
-  products = Array.isArray(data)
-    ? data
-    : [];
+  // Ordenar los productos por categoría y,
+  // dentro de cada categoría, por el número de orden.
+  products.sort((a,b)=>{
+    const catA=(a.category||'').localeCompare(b.category||'', 'es');
+    if(catA!==0) return catA;
 
+    return (Number(a.sort_order)||0)-(Number(b.sort_order)||0);
+  });
 
   renderCats();
-
   render();
-
 }
 
 
