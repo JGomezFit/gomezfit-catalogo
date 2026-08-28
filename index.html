@@ -294,6 +294,14 @@ body{
   letter-spacing:1px;
 }
 
+.brandName{
+  color:#ddd;
+  font-size:10px;
+  font-weight:700;
+  margin-top:4px;
+  min-height:14px;
+}
+
 .name{
   font-weight:900;
   font-size:14px;
@@ -328,6 +336,16 @@ body{
 
 .buy:hover{
   background:#d6aa3d;
+}
+
+/* =========================
+   MENSAJES
+========================= */
+
+.message{
+  color:#888;
+  padding:30px;
+  text-align:center;
 }
 
 /* =========================
@@ -394,16 +412,6 @@ footer{
     letter-spacing:2px;
   }
 
-}
-
-/* =========================
-   MENSAJES
-========================= */
-
-.message{
-  color:#888;
-  padding:30px;
-  text-align:center;
 }
 </style>
 </head>
@@ -521,18 +529,22 @@ footer{
       id="search"
       class="search"
       type="search"
-      placeholder="🔎 Buscar por nombre o categoría..."
+      placeholder="🔎 Buscar por nombre, marca o categoría..."
       autocomplete="off"
     >
 
   </div>
 
 
+  <!-- BOTONES DE CATEGORIAS -->
+
   <div
     id="cats"
     class="cats"
   ></div>
 
+
+  <!-- TITULO -->
 
   <div class="heading">
 
@@ -547,6 +559,8 @@ footer{
 
   </div>
 
+
+  <!-- PRODUCTOS -->
 
   <div
     id="grid"
@@ -581,9 +595,13 @@ let active = 'Todos';
 ========================================== */
 
 const search = document.getElementById('search');
+
 const catsEl = document.getElementById('cats');
+
 const grid = document.getElementById('grid');
+
 const title = document.getElementById('title');
+
 const count = document.getElementById('count');
 
 
@@ -591,16 +609,32 @@ const count = document.getElementById('count');
    CREAR CLIENTE SUPABASE
 ========================================== */
 
-if (
+if(
   cfg.SUPABASE_URL &&
   cfg.SUPABASE_PUBLISHABLE_KEY &&
   !cfg.SUPABASE_URL.includes('PEGA_AQUI')
-) {
+){
 
   sb = supabase.createClient(
     cfg.SUPABASE_URL,
     cfg.SUPABASE_PUBLISHABLE_KEY
   );
+
+}
+
+
+/* ==========================================
+   ESCAPAR TEXTO HTML
+========================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
 
 }
 
@@ -617,7 +651,11 @@ function getImageUrl(imageUrl){
 
   imageUrl = String(imageUrl).trim();
 
-  /* Si ya es una URL completa */
+
+  /*
+     Si ya es una URL completa
+  */
+
   if(
     imageUrl.startsWith('http://') ||
     imageUrl.startsWith('https://')
@@ -628,7 +666,10 @@ function getImageUrl(imageUrl){
   }
 
 
-  /* Si es una imagen base64/data */
+  /*
+     Si es base64
+  */
+
   if(imageUrl.startsWith('data:')){
 
     return imageUrl;
@@ -637,20 +678,28 @@ function getImageUrl(imageUrl){
 
 
   /*
-     Si image_url contiene una ruta de Supabase
-     obtenemos solamente el nombre del archivo
+     Si es una ruta dentro de Supabase,
+     usamos el nombre del archivo.
   */
 
   const fileName =
     imageUrl.split('/').pop();
 
 
-  /*
-     URL PUBLICA DEL BUCKET
-  */
+  const baseUrl =
+    String(cfg.SUPABASE_URL || '')
+      .replace(/\/$/,'');
+
+
+  if(!baseUrl){
+
+    return '';
+
+  }
+
 
   return (
-    'https://rlcrfmfzjfahhkxkcdhq.supabase.co' +
+    baseUrl +
     '/storage/v1/object/public/product-images/' +
     encodeURIComponent(fileName)
   );
@@ -663,52 +712,163 @@ function getImageUrl(imageUrl){
 ========================================== */
 
 async function load(){
-  if(!cfg.SUPABASE_URL || cfg.SUPABASE_URL.includes('PEGA_AQUI')){
-    grid.innerHTML='<div style="color:#aaa;padding:20px">Configura Supabase en config.js para cargar el catálogo online.</div>';
+
+  if(
+    !cfg.SUPABASE_URL ||
+    cfg.SUPABASE_URL.includes('PEGA_AQUI')
+  ){
+
+    grid.innerHTML = `
+      <div class="message">
+        Configura Supabase en config.js para cargar el catálogo online.
+      </div>
+    `;
+
     return;
+
   }
 
-  const {data,error}=await sb
+
+  const {
+    data,
+    error
+  } = await sb
     .from('products')
-    .select('*');
+    .select('*')
+    .order('id',{ascending:true});
+
 
   if(error){
-    grid.innerHTML='<div style="color:#aaa;padding:20px">No se pudo cargar el catálogo. Revisa la configuración de Supabase.</div>';
+
+    grid.innerHTML = `
+      <div class="message">
+        No se pudo cargar el catálogo.
+        Revisa la configuración de Supabase.
+      </div>
+    `;
+
     console.error(error);
+
     return;
+
   }
 
-  products=data||[];
 
-  // Ordenar los productos por categoría y,
-  // dentro de cada categoría, por el número de orden.
+  products = data || [];
+
+
+  /*
+     ==================================================
+     ORDEN DE CATEGORIAS
+     ==================================================
+
+     Conservamos el orden en el que las categorías
+     aparecen por primera vez en la base de datos.
+
+     Esto permite respetar el orden de tu Excel.
+  */
+
+  const categoryOrder = [
+    ...new Set(
+      products
+        .map(
+          product =>
+            String(product.category || '').trim()
+        )
+        .filter(Boolean)
+    )
+  ];
+
+
+  /*
+     ==================================================
+     ORDEN DE PRODUCTOS
+     ==================================================
+
+     Primero:
+
+     1. Categoria
+
+     Después:
+
+     2. sort_order
+
+     Por lo tanto, si una categoría tiene:
+
+     1
+     2
+     3
+     4
+
+     se mostrará exactamente en ese orden.
+
+     Cuando comienza otra categoría,
+     vuelve a respetar su propio:
+
+     1
+     2
+     3
+     4
+  */
+
   products.sort((a,b)=>{
-    const catA=(a.category||'').localeCompare(b.category||'', 'es');
-    if(catA!==0) return catA;
 
-    return (Number(a.sort_order)||0)-(Number(b.sort_order)||0);
+    const catA =
+      categoryOrder.indexOf(
+        String(a.category || '').trim()
+      );
+
+    const catB =
+      categoryOrder.indexOf(
+        String(b.category || '').trim()
+      );
+
+
+    if(catA !== catB){
+
+      return catA - catB;
+
+    }
+
+
+    return (
+      (Number(a.sort_order) || 0) -
+      (Number(b.sort_order) || 0)
+    );
+
   });
 
+
   renderCats();
+
   render();
+
 }
 
 
 /* ==========================================
-   CATEGORIAS
+   CREAR CATEGORIAS
 ========================================== */
 
 function renderCats(){
 
   /*
-     Eliminamos categorías vacías
-     y quitamos duplicados.
+     Obtenemos las categorías de los productos.
+
+     No existe subcategoría.
   */
 
   const categories = products
-    .map(p => String(p.category || '').trim())
+    .map(
+      product =>
+        String(product.category || '').trim()
+    )
     .filter(Boolean);
 
+
+  /*
+     Quitamos duplicados y agregamos "Todos".
+  */
 
   const cats = [
     'Todos',
@@ -736,12 +896,13 @@ function renderCats(){
   */
 
   catsEl.innerHTML = cats
-    .map(category => {
+    .map(category=>{
 
       const isActive =
         category === active
           ? 'active'
           : '';
+
 
       return `
         <button
@@ -758,73 +919,59 @@ function renderCats(){
 
 
   /*
-     Evento para cada categoría.
+     Eventos de los botones.
   */
 
   catsEl
     .querySelectorAll('.chip')
-    .forEach(button => {
+    .forEach(button=>{
 
-      button.addEventListener('click',function(){
+      button.addEventListener(
+        'click',
+        function(){
 
-        const category =
-          decodeURIComponent(
-            this.dataset.category
-          );
-
-
-        /*
-           Cambiamos la categoría activa.
-        */
-
-        active = category;
+          const category =
+            decodeURIComponent(
+              this.dataset.category
+            );
 
 
-        /*
-           Actualizamos botones.
-        */
+          /*
+             Cambiar categoría activa.
+          */
 
-        renderCats();
-
-
-        /*
-           Actualizamos productos.
-        */
-
-        render();
+          active = category;
 
 
-        /*
-           Llevamos suavemente al inicio
-           del catálogo.
-        */
+          /*
+             Actualizar botones.
+          */
 
-        document
-          .getElementById('catalogo')
-          .scrollIntoView({
-            behavior:'smooth',
-            block:'start'
-          });
+          renderCats();
 
-      });
+
+          /*
+             Actualizar productos.
+          */
+
+          render();
+
+
+          /*
+             Volver al inicio del catálogo.
+          */
+
+          document
+            .getElementById('catalogo')
+            .scrollIntoView({
+              behavior:'smooth',
+              block:'start'
+            });
+
+        }
+      );
 
     });
-
-}
-
-
-/* ==========================================
-   ESCAPAR TEXTO HTML
-========================================== */
-
-function escapeHtml(value){
-
-  return String(value ?? '')
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#039;');
 
 }
 
@@ -842,11 +989,20 @@ function render(){
 
 
   /*
-     Filtrar por categoría
-     + búsqueda.
+     ==================================================
+     FILTRADO
+     ==================================================
+
+     Filtra por:
+
+     - categoría
+     - nombre
+     - marca
+     - presentación
+     - active
   */
 
-  const list = products.filter(product => {
+  const list = products.filter(product=>{
 
     const category =
       String(product.category || '').trim();
@@ -856,17 +1012,29 @@ function render(){
       String(product.name || '');
 
 
+    const brand =
+      String(product.brand || '');
+
+
     const presentation =
       String(product.presentation || '');
 
+
+    /*
+       Categoría seleccionada.
+    */
 
     const matchesCategory =
       active === 'Todos' ||
       category === active;
 
 
+    /*
+       Texto que utilizará el buscador.
+    */
+
     const searchText =
-      `${name} ${category} ${presentation}`
+      `${name} ${brand} ${category} ${presentation}`
         .toLowerCase();
 
 
@@ -875,7 +1043,12 @@ function render(){
       searchText.includes(q);
 
 
+    /*
+       Solo mostramos productos activos.
+    */
+
     return (
+      product.active !== false &&
       matchesCategory &&
       matchesSearch
     );
@@ -884,7 +1057,7 @@ function render(){
 
 
   /*
-     Título.
+     Titulo de la sección.
   */
 
   title.textContent =
@@ -894,7 +1067,7 @@ function render(){
 
 
   /*
-     Cantidad.
+     Cantidad de productos.
   */
 
   count.textContent =
@@ -919,11 +1092,17 @@ function render(){
 
 
   /*
-     Dibujar productos.
+     ==================================================
+     CREAR TARJETAS
+     ==================================================
   */
 
   grid.innerHTML = list
-    .map(product => {
+    .map(product=>{
+
+      /*
+         Imagen
+      */
 
       const image =
         getImageUrl(
@@ -931,11 +1110,19 @@ function render(){
         );
 
 
+      /*
+         Nombre
+      */
+
       const name =
         escapeHtml(
           product.name || 'Producto'
         );
 
+
+      /*
+         Categoria
+      */
 
       const category =
         escapeHtml(
@@ -943,11 +1130,29 @@ function render(){
         );
 
 
+      /*
+         Marca
+      */
+
+      const brand =
+        escapeHtml(
+          product.brand || ''
+        );
+
+
+      /*
+         Presentación
+      */
+
       const presentation =
         escapeHtml(
           product.presentation || ''
         );
 
+
+      /*
+         Precio
+      */
 
       const price =
         product.price !== null &&
@@ -958,6 +1163,12 @@ function render(){
               .toFixed(2)
           : 'Consultar';
 
+
+      /*
+         ==================================================
+         MENSAJE WHATSAPP
+         ==================================================
+      */
 
       const whatsappText =
         'Hola, estoy interesado en ' +
@@ -979,6 +1190,12 @@ function render(){
           whatsappText
         );
 
+
+      /*
+         ==================================================
+         TARJETA
+         ==================================================
+      */
 
       return `
 
@@ -1007,6 +1224,17 @@ function render(){
             <div class="cat">
               ${category}
             </div>
+
+
+            ${
+              brand
+                ? `
+                  <div class="brandName">
+                    ${brand}
+                  </div>
+                `
+                : ''
+            }
 
 
             <div class="name">
@@ -1056,7 +1284,7 @@ search.addEventListener(
 
 
 /* ==========================================
-   INICIAR
+   INICIAR CATALOGO
 ========================================== */
 
 load();
