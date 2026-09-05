@@ -1,430 +1,1087 @@
 <!doctype html>
 <html lang="es">
+
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
 
 <title>GOMEZFIT | Catálogo</title>
 
+
+<!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="config.js"></script>
 
+
+<!-- FUENTE -->
+
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 *{
   box-sizing:border-box;
 }
 
+
 html{
   scroll-behavior:smooth;
 }
 
+
 body{
   margin:0;
+
   background:#070707;
+
   color:#fff;
-  font-family:Montserrat,Arial,sans-serif;
+
+  font-family:
+    Montserrat,
+    Arial,
+    sans-serif;
 }
 
-/* =========================
+
+/* =========================================================
    NAVBAR
-========================= */
+========================================================= */
 
 .nav{
+
   position:fixed;
+
   top:0;
   left:0;
   right:0;
+
   z-index:20;
-  background:rgba(5,5,5,.78);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(255,255,255,.08);
+
+  background:
+    rgba(5,5,5,.78);
+
+  backdrop-filter:
+    blur(12px);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
+
 }
+
 
 .navin{
+
   max-width:1180px;
+
   margin:auto;
+
   padding:11px 20px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
+
 }
+
 
 .brand{
+
   height:48px;
+
   width:auto;
+
   object-fit:contain;
+
 }
+
 
 .contacts{
+
   display:flex;
+
   gap:16px;
+
   align-items:center;
+
 }
+
 
 .contacts a{
+
   color:#ddd;
+
   text-decoration:none;
+
   font-size:12px;
+
   font-weight:700;
+
+  transition:.2s ease;
+
 }
+
 
 .contacts a:hover{
+
   color:#d7ae45;
+
 }
 
-/* =========================
+
+/* =========================================================
    HERO
-========================= */
+========================================================= */
 
 .hero{
+
   min-height:94vh;
+
   position:relative;
+
   display:flex;
-  align-items:flex-end;
+
+  align-items:center;
+
   overflow:hidden;
-  background:#070707 url('assets/cover.png') center/cover no-repeat;
+
+  background:
+
+    url('assets/cover.png')
+
+    center center /
+
+    cover
+
+    no-repeat;
+
+  background-color:#070707;
+
 }
+
+
+/* CAPA OSCURA */
 
 .hero:after{
+
   content:"";
+
   position:absolute;
+
   inset:0;
-  background:linear-gradient(
-    90deg,
-    rgba(0,0,0,.86),
-    rgba(0,0,0,.30) 62%,
-    rgba(0,0,0,.72)
-  );
+
+  z-index:1;
+
+  background:
+
+    linear-gradient(
+
+      90deg,
+
+      rgba(0,0,0,.97) 0%,
+
+      rgba(0,0,0,.88) 28%,
+
+      rgba(0,0,0,.55) 52%,
+
+      rgba(0,0,0,.18) 76%,
+
+      rgba(0,0,0,.55) 100%
+
+    );
+
 }
+
+
+/* CONTENIDO HERO */
 
 .heroIn{
+
   position:relative;
+
   z-index:2;
+
   max-width:1180px;
+
   width:100%;
+
   margin:auto;
-  padding:120px 20px 58px;
+
+  padding:130px 20px 100px;
+
 }
+
+
+/* LOGO HERO */
 
 .heroLogo{
-  width:min(330px,70vw);
+
+  width:min(310px,62vw);
+
+  height:auto;
+
   display:block;
-  margin-bottom:22px;
+
+  margin-bottom:28px;
+
+  object-fit:contain;
+
 }
+
+
+/* SLOGAN */
 
 .slogan{
-  font-family:Impact,"Arial Narrow",sans-serif;
+
+  font-family:
+
+    Impact,
+
+    "Arial Narrow",
+
+    sans-serif;
+
   letter-spacing:1px;
-  font-size:clamp(38px,7vw,70px);
-  line-height:.9;
-  max-width:620px;
-  margin:0 0 28px;
+
+  font-size:
+
+    clamp(42px,6vw,72px);
+
+  line-height:.92;
+
+  max-width:650px;
+
+  margin:0 0 24px;
+
+  font-weight:900;
+
 }
+
+
+/* PALABRA DORADA */
 
 .slogan span{
+
   color:#d8ad43;
+
 }
+
+
+/* DESCRIPCIÓN */
+
+.heroDescription{
+
+  max-width:560px;
+
+  color:#e5e5e5;
+
+  font-size:15px;
+
+  line-height:1.7;
+
+  font-weight:500;
+
+  margin:0 0 30px;
+
+}
+
+
+/* =========================================================
+   BOTONES HERO
+========================================================= */
 
 .cta{
+
   display:flex;
-  gap:10px;
+
+  gap:12px;
+
   flex-wrap:wrap;
+
 }
+
 
 .btn{
-  padding:13px 18px;
+
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:14px 20px;
+
   border-radius:7px;
+
   text-decoration:none;
+
   font-weight:900;
-  font-size:12px;
+
+  font-size:11px;
+
+  letter-spacing:.3px;
+
+  transition:.2s ease;
+
 }
+
+
+.btn:hover{
+
+  transform:translateY(-2px);
+
+}
+
+
+/* BOTÓN DORADO */
 
 .gold{
+
   background:#d6aa3d;
+
   color:#080808;
+
+  border:1px solid #d6aa3d;
+
+  box-shadow:
+
+    0 8px 25px
+
+    rgba(214,170,61,.18);
+
 }
+
+
+.gold:hover{
+
+  background:#e3bc58;
+
+}
+
+
+/* BOTÓN WHATSAPP */
 
 .white{
-  background:#fff;
-  color:#080808;
+
+  background:
+
+    rgba(255,255,255,.06);
+
+  color:#fff;
+
+  border:
+
+    1px solid
+
+    rgba(255,255,255,.55);
+
+  backdrop-filter:
+
+    blur(8px);
+
 }
+
+
+.white:hover{
+
+  background:#fff;
+
+  color:#080808;
+
+}
+
+
+/* =========================================================
+   TEXTO INFERIOR HERO
+========================================================= */
 
 .explore{
+
   position:absolute;
+
   z-index:3;
+
   bottom:20px;
+
   left:50%;
+
   transform:translateX(-50%);
-  font-size:12px;
+
+  font-size:11px;
+
   font-weight:900;
+
   letter-spacing:3px;
+
   color:#d6aa3d;
+
   white-space:nowrap;
+
+  text-align:center;
+
 }
 
-/* =========================
+
+/* =========================================================
    CATALOGO
-========================= */
+========================================================= */
 
 .wrap{
+
   max-width:1180px;
+
   margin:auto;
+
   padding:60px 20px 80px;
+
 }
+
+
+/* =========================================================
+   BUSCADOR
+========================================================= */
 
 .tools{
+
   display:flex;
+
   gap:10px;
+
   margin-bottom:14px;
+
 }
+
 
 .search{
+
   width:100%;
+
   background:#111;
+
   border:1px solid #333;
+
   color:#fff;
+
   padding:14px 16px;
+
   border-radius:8px;
+
   font-size:14px;
+
   outline:none;
+
 }
+
 
 .search:focus{
+
   border-color:#d6aa3d;
+
 }
 
-/* =========================
+
+.search::placeholder{
+
+  color:#777;
+
+}
+
+
+/* =========================================================
    CATEGORIAS
-========================= */
+========================================================= */
 
 .cats{
+
   display:flex;
+
   gap:8px;
+
   overflow-x:auto;
+
   padding:5px 0 15px;
+
   scrollbar-width:auto;
+
 }
 
+
 .chip{
+
   white-space:nowrap;
+
   background:#111;
+
   border:1px solid #333;
+
   color:#ddd;
+
   padding:9px 13px;
+
   border-radius:999px;
+
   font-size:11px;
+
   font-weight:800;
+
   cursor:pointer;
+
   transition:.2s;
+
 }
+
 
 .chip:hover,
 .chip.active{
+
   background:#d6aa3d;
+
   color:#070707;
+
   border-color:#d6aa3d;
+
 }
 
-/* =========================
+
+/* =========================================================
    TITULO
-========================= */
+========================================================= */
 
 .heading{
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:end;
+
   margin:15px 0;
+
 }
+
 
 .heading h2{
+
   font-size:28px;
+
   margin:0;
+
   font-weight:900;
+
 }
+
 
 .count{
+
   font-size:11px;
+
   color:#888;
+
 }
 
-/* =========================
+
+/* =========================================================
    PRODUCTOS
-========================= */
+========================================================= */
 
 .grid{
+
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+
+  grid-template-columns:
+    repeat(4,1fr);
+
   gap:14px;
+
 }
+
 
 .card{
+
   background:#101010;
+
   border:1px solid #222;
+
   border-radius:12px;
+
   overflow:hidden;
+
+  transition:.2s ease;
+
 }
+
+
+.card:hover{
+
+  transform:translateY(-3px);
+
+  border-color:#333;
+
+}
+
+
+/* FOTO */
 
 .photo{
+
   aspect-ratio:1;
+
   background:#000;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   overflow:hidden;
+
 }
+
 
 .photo img{
+
   width:100%;
+
   height:100%;
+
   object-fit:contain;
+
   display:block;
+
 }
+
+
+/* INFO */
 
 .info{
+
   padding:13px;
+
 }
+
+
+/* CATEGORIA */
 
 .cat{
+
   font-size:9px;
+
   color:#b89543;
+
   font-weight:800;
+
   text-transform:uppercase;
+
   letter-spacing:1px;
+
 }
+
+
+/* MARCA */
 
 .brandName{
+
   color:#ddd;
+
   font-size:10px;
+
   font-weight:700;
+
   margin-top:4px;
+
   min-height:14px;
+
 }
+
+
+/* NOMBRE */
 
 .name{
+
   font-weight:900;
+
   font-size:14px;
+
   margin-top:6px;
+
   min-height:35px;
+
 }
+
+
+/* PRESENTACION */
 
 .spec{
+
   color:#888;
+
   font-size:10px;
+
   min-height:25px;
+
 }
+
+
+/* PRECIO */
 
 .price{
+
   font-size:22px;
+
   font-weight:900;
+
   color:#d6aa3d;
+
   margin:8px 0 11px;
+
 }
+
+
+/* COMPRAR */
 
 .buy{
+
   display:block;
+
   text-align:center;
+
   background:#fff;
+
   color:#070707;
+
   text-decoration:none;
+
   padding:10px;
+
   border-radius:6px;
+
   font-size:10px;
+
   font-weight:900;
+
+  transition:.2s ease;
+
 }
+
 
 .buy:hover{
+
   background:#d6aa3d;
+
 }
 
-/* =========================
+
+/* =========================================================
    MENSAJES
-========================= */
+========================================================= */
 
 .message{
+
   color:#888;
+
   padding:30px;
+
   text-align:center;
+
 }
 
-/* =========================
+
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
 footer{
+
   text-align:center;
+
   padding:28px;
+
   color:#777;
+
   border-top:1px solid #222;
+
   font-size:11px;
+
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+
+/* =========================================================
+   TABLET
+========================================================= */
 
 @media(max-width:850px){
 
   .grid{
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+      repeat(3,1fr);
+
   }
 
 }
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
 
 @media(max-width:620px){
 
+  /* NAVBAR */
+
   .contacts{
+
     gap:10px;
+
   }
+
 
   .contacts a{
+
     font-size:0;
+
   }
 
-  .contacts a::first-letter{
+
+  .contacts a::before{
+
     font-size:18px;
+
   }
+
+
+  .contacts a:nth-child(1)::before{
+
+    content:"◉";
+
+  }
+
+
+  .contacts a:nth-child(2)::before{
+
+    content:"◎";
+
+  }
+
+
+  .contacts a:nth-child(3)::before{
+
+    content:"♪";
+
+  }
+
+
+  /* HERO */
 
   .hero{
-    min-height:88vh;
+
+    min-height:92vh;
+
+    background-position:
+
+      62% center;
+
   }
+
+
+  .hero:after{
+
+    background:
+
+      linear-gradient(
+
+        180deg,
+
+        rgba(0,0,0,.92) 0%,
+
+        rgba(0,0,0,.78) 42%,
+
+        rgba(0,0,0,.48) 75%,
+
+        rgba(0,0,0,.75) 100%
+
+      );
+
+  }
+
 
   .heroIn{
-    padding:110px 20px 70px;
+
+    padding:
+
+      125px 20px 85px;
+
   }
 
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-    gap:9px;
-  }
 
   .heroLogo{
-    width:min(270px,70vw);
+
+    width:
+
+      min(260px,72vw);
+
+    margin-bottom:25px;
+
   }
+
 
   .slogan{
+
     font-size:46px;
+
+    line-height:.92;
+
+    margin-bottom:22px;
+
   }
 
-  .explore{
+
+  .heroDescription{
+
+    max-width:430px;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+    margin-bottom:25px;
+
+  }
+
+
+  .cta{
+
+    gap:8px;
+
+  }
+
+
+  .btn{
+
+    padding:12px 15px;
+
     font-size:10px;
+
+  }
+
+
+  .explore{
+
+    font-size:9px;
+
     letter-spacing:2px;
+
+    bottom:18px;
+
+  }
+
+
+  /* PRODUCTOS */
+
+  .grid{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+    gap:9px;
+
+  }
+
+
+  /* CATALOGO */
+
+  .wrap{
+
+    padding:
+
+      45px 12px 60px;
+
+  }
+
+
+  .heading h2{
+
+    font-size:23px;
+
+  }
+
+
+  .count{
+
+    font-size:10px;
+
   }
 
 }
+
+
+/* =========================================================
+   CELULAR PEQUEÑO
+========================================================= */
+
+@media(max-width:400px){
+
+  .heroLogo{
+
+    width:220px;
+
+  }
+
+
+  .slogan{
+
+    font-size:40px;
+
+  }
+
+
+  .heroDescription{
+
+    font-size:12px;
+
+  }
+
+
+  .btn{
+
+    width:100%;
+
+  }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<!-- =========================
+
+<!-- =======================================================
      NAVBAR
-========================= -->
+======================================================= -->
 
 <nav class="nav">
 
   <div class="navin">
+
+
+    <!-- LOGO -->
 
     <img
       src="assets/logo.jpeg"
@@ -432,31 +1089,47 @@ footer{
       alt="GOMEZFIT"
     >
 
+
+    <!-- CONTACTOS -->
+
     <div class="contacts">
+
+
+      <!-- WHATSAPP -->
 
       <a
         href="https://wa.me/593968543741"
         target="_blank"
         rel="noopener"
+        aria-label="WhatsApp"
       >
         WhatsApp
       </a>
+
+
+      <!-- INSTAGRAM -->
 
       <a
         href="https://www.instagram.com/jgomez.fit/"
         target="_blank"
         rel="noopener"
+        aria-label="Instagram"
       >
         Instagram
       </a>
+
+
+      <!-- TIKTOK -->
 
       <a
         href="https://www.tiktok.com/@jgomez_fit"
         target="_blank"
         rel="noopener"
+        aria-label="TikTok"
       >
         TikTok
       </a>
+
 
     </div>
 
@@ -465,13 +1138,18 @@ footer{
 </nav>
 
 
-<!-- =========================
+
+<!-- =======================================================
      HERO
-========================= -->
+======================================================= -->
 
 <section class="hero">
 
+
   <div class="heroIn">
+
+
+    <!-- LOGO -->
 
     <img
       src="assets/logo.jpeg"
@@ -479,20 +1157,48 @@ footer{
       alt="GOMEZFIT"
     >
 
+
+    <!-- SLOGAN -->
+
     <h1 class="slogan">
+
       CONOCE.
+
       <span>ENTRENA.</span>
+
       EVOLUCIONA.
+
     </h1>
 
+
+    <!-- DESCRIPCION -->
+
+    <p class="heroDescription">
+
+      Encuentra el suplemento que necesitas
+      y recibe orientación durante todo tu proceso.
+
+    </p>
+
+
+    <!-- BOTONES -->
+
     <div class="cta">
+
+
+      <!-- VER CATALOGO -->
 
       <a
         class="btn gold"
         href="#catalogo"
       >
+
         VER CATÁLOGO
+
       </a>
+
+
+      <!-- WHATSAPP -->
 
       <a
         class="btn white"
@@ -500,28 +1206,42 @@ footer{
         target="_blank"
         rel="noopener"
       >
+
         COMPRAR POR WHATSAPP
+
       </a>
+
 
     </div>
 
+
   </div>
 
+
+  <!-- TEXTO INFERIOR -->
+
   <div class="explore">
+
     EXPLORA NUESTROS PRODUCTOS ↓
+
   </div>
+
 
 </section>
 
 
-<!-- =========================
+
+<!-- =======================================================
      CATALOGO
-========================= -->
+======================================================= -->
 
 <main
   class="wrap"
   id="catalogo"
 >
+
+
+  <!-- BUSCADOR -->
 
   <div class="tools">
 
@@ -536,7 +1256,8 @@ footer{
   </div>
 
 
-  <!-- BOTONES DE CATEGORIAS -->
+
+  <!-- CATEGORIAS -->
 
   <div
     id="cats"
@@ -544,13 +1265,17 @@ footer{
   ></div>
 
 
+
   <!-- TITULO -->
 
   <div class="heading">
 
     <h2 id="title">
+
       Todos
+
     </h2>
+
 
     <span
       id="count"
@@ -560,6 +1285,7 @@ footer{
   </div>
 
 
+
   <!-- PRODUCTOS -->
 
   <div
@@ -567,98 +1293,149 @@ footer{
     class="grid"
   ></div>
 
+
 </main>
 
 
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
 <footer>
+
   GOMEZFIT · Conocimiento · Acompañamiento · Rendimiento
+
 </footer>
 
 
+
+<!-- =======================================================
+     JAVASCRIPT
+======================================================= -->
+
 <script>
 
-/* ==========================================
-   CONFIGURACION SUPABASE
-========================================== */
 
-const cfg = window.GOMEZFIT_CONFIG || {};
+/* =========================================================
+   CONFIGURACION SUPABASE
+========================================================= */
+
+const cfg =
+  window.GOMEZFIT_CONFIG || {};
+
 
 let sb = null;
 
+
 let products = [];
+
 
 let active = 'Todos';
 
 
-/* ==========================================
+
+/* =========================================================
    ELEMENTOS HTML
-========================================== */
+========================================================= */
 
-const search = document.getElementById('search');
-
-const catsEl = document.getElementById('cats');
-
-const grid = document.getElementById('grid');
-
-const title = document.getElementById('title');
-
-const count = document.getElementById('count');
+const search =
+  document.getElementById('search');
 
 
-/* ==========================================
+const catsEl =
+  document.getElementById('cats');
+
+
+const grid =
+  document.getElementById('grid');
+
+
+const title =
+  document.getElementById('title');
+
+
+const count =
+  document.getElementById('count');
+
+
+
+/* =========================================================
    CREAR CLIENTE SUPABASE
-========================================== */
+========================================================= */
 
 if(
+
   cfg.SUPABASE_URL &&
+
   cfg.SUPABASE_PUBLISHABLE_KEY &&
+
   !cfg.SUPABASE_URL.includes('PEGA_AQUI')
+
 ){
 
-  sb = supabase.createClient(
-    cfg.SUPABASE_URL,
-    cfg.SUPABASE_PUBLISHABLE_KEY
-  );
+  sb =
+    supabase.createClient(
+
+      cfg.SUPABASE_URL,
+
+      cfg.SUPABASE_PUBLISHABLE_KEY
+
+    );
 
 }
 
 
-/* ==========================================
-   ESCAPAR TEXTO HTML
-========================================== */
+
+/* =========================================================
+   ESCAPAR HTML
+========================================================= */
 
 function escapeHtml(value){
 
   return String(value ?? '')
+
     .replace(/&/g,'&amp;')
+
     .replace(/</g,'&lt;')
+
     .replace(/>/g,'&gt;')
+
     .replace(/"/g,'&quot;')
+
     .replace(/'/g,'&#039;');
 
 }
 
 
-/* ==========================================
+
+/* =========================================================
    CONVERTIR IMAGEN A URL PUBLICA
-========================================== */
+========================================================= */
 
 function getImageUrl(imageUrl){
 
+
   if(!imageUrl){
+
     return '';
+
   }
 
-  imageUrl = String(imageUrl).trim();
+
+  imageUrl =
+    String(imageUrl).trim();
 
 
-  /*
-     Si ya es una URL completa
-  */
+
+  /* URL COMPLETA */
 
   if(
+
     imageUrl.startsWith('http://') ||
+
     imageUrl.startsWith('https://')
+
   ){
 
     return imageUrl;
@@ -666,29 +1443,40 @@ function getImageUrl(imageUrl){
   }
 
 
-  /*
-     Si es base64
-  */
 
-  if(imageUrl.startsWith('data:')){
+  /* BASE64 */
+
+  if(
+
+    imageUrl.startsWith('data:')
+
+  ){
 
     return imageUrl;
 
   }
 
 
-  /*
-     Si es una ruta dentro de Supabase,
-     usamos el nombre del archivo.
-  */
+
+  /* NOMBRE DEL ARCHIVO */
 
   const fileName =
-    imageUrl.split('/').pop();
+
+    imageUrl
+
+      .split('/')
+
+      .pop();
+
 
 
   const baseUrl =
-    String(cfg.SUPABASE_URL || '')
+
+    String(
+      cfg.SUPABASE_URL || ''
+    )
       .replace(/\/$/,'');
+
 
 
   if(!baseUrl){
@@ -698,30 +1486,47 @@ function getImageUrl(imageUrl){
   }
 
 
+
   return (
+
     baseUrl +
+
     '/storage/v1/object/public/product-images/' +
+
     encodeURIComponent(fileName)
+
   );
 
 }
 
 
-/* ==========================================
+
+/* =========================================================
    CARGAR PRODUCTOS
-========================================== */
+========================================================= */
 
 async function load(){
 
+
+  /* SUPABASE NO CONFIGURADO */
+
   if(
+
     !cfg.SUPABASE_URL ||
+
     cfg.SUPABASE_URL.includes('PEGA_AQUI')
+
   ){
 
     grid.innerHTML = `
+
       <div class="message">
-        Configura Supabase en config.js para cargar el catálogo online.
+
+        Configura Supabase en config.js
+        para cargar el catálogo online.
+
       </div>
+
     `;
 
     return;
@@ -729,22 +1534,41 @@ async function load(){
   }
 
 
-  const {
-    data,
-    error
-  } = await sb
-    .from('products')
-    .select('*')
-    .order('id',{ascending:true});
 
+  /* CONSULTAR PRODUCTOS */
+
+  const {
+
+    data,
+
+    error
+
+  } = await sb
+
+    .from('products')
+
+    .select('*')
+
+    .order(
+      'id',
+      {ascending:true}
+    );
+
+
+
+  /* ERROR */
 
   if(error){
 
     grid.innerHTML = `
+
       <div class="message">
+
         No se pudo cargar el catálogo.
         Revisa la configuración de Supabase.
+
       </div>
+
     `;
 
     console.error(error);
@@ -754,75 +1578,72 @@ async function load(){
   }
 
 
+
+  /* GUARDAR PRODUCTOS */
+
   products = data || [];
 
 
-  /*
-     ==================================================
+
+  /* =======================================================
      ORDEN DE CATEGORIAS
-     ==================================================
-
-     Conservamos el orden en el que las categorías
-     aparecen por primera vez en la base de datos.
-
-     Esto permite respetar el orden de tu Excel.
-  */
+  ======================================================= */
 
   const categoryOrder = [
+
     ...new Set(
+
       products
+
         .map(
+
           product =>
-            String(product.category || '').trim()
+
+            String(
+              product.category || ''
+            ).trim()
+
         )
+
         .filter(Boolean)
+
     )
+
   ];
 
 
-  /*
-     ==================================================
+
+  /* =======================================================
      ORDEN DE PRODUCTOS
-     ==================================================
-
-     Primero:
-
-     1. Categoria
-
-     Después:
-
-     2. sort_order
-
-     Por lo tanto, si una categoría tiene:
-
-     1
-     2
-     3
-     4
-
-     se mostrará exactamente en ese orden.
-
-     Cuando comienza otra categoría,
-     vuelve a respetar su propio:
-
-     1
-     2
-     3
-     4
-  */
+  ======================================================= */
 
   products.sort((a,b)=>{
 
+
     const catA =
+
       categoryOrder.indexOf(
-        String(a.category || '').trim()
+
+        String(
+          a.category || ''
+        ).trim()
+
       );
+
 
     const catB =
+
       categoryOrder.indexOf(
-        String(b.category || '').trim()
+
+        String(
+          b.category || ''
+        ).trim()
+
       );
 
+
+
+    /* ORDEN DE CATEGORIA */
 
     if(catA !== catB){
 
@@ -831,59 +1652,79 @@ async function load(){
     }
 
 
+
+    /* ORDEN DENTRO DE CATEGORIA */
+
     return (
-      (Number(a.sort_order) || 0) -
+
+      (Number(a.sort_order) || 0)
+
+      -
+
       (Number(b.sort_order) || 0)
+
     );
 
   });
 
 
+
+  /* CREAR CATEGORIAS */
+
   renderCats();
+
+
+  /* MOSTRAR PRODUCTOS */
 
   render();
 
 }
 
 
-/* ==========================================
+
+/* =========================================================
    CREAR CATEGORIAS
-========================================== */
+========================================================= */
 
 function renderCats(){
 
-  /*
-     Obtenemos las categorías de los productos.
 
-     No existe subcategoría.
-  */
+  const categories =
 
-  const categories = products
-    .map(
-      product =>
-        String(product.category || '').trim()
-    )
-    .filter(Boolean);
+    products
+
+      .map(
+
+        product =>
+
+          String(
+            product.category || ''
+          ).trim()
+
+      )
+
+      .filter(Boolean);
 
 
-  /*
-     Quitamos duplicados y agregamos "Todos".
-  */
 
   const cats = [
+
     'Todos',
+
     ...new Set(categories)
+
   ];
 
 
-  /*
-     Si la categoría activa ya no existe,
-     volvemos a Todos.
-  */
+
+  /* VERIFICAR CATEGORIA ACTIVA */
 
   if(
+
     active !== 'Todos' &&
+
     !cats.includes(active)
+
   ){
 
     active = 'Todos';
@@ -891,84 +1732,110 @@ function renderCats(){
   }
 
 
-  /*
-     Creamos los botones.
-  */
 
-  catsEl.innerHTML = cats
-    .map(category=>{
+  /* CREAR BOTONES */
 
-      const isActive =
-        category === active
-          ? 'active'
-          : '';
+  catsEl.innerHTML =
+
+    cats
+
+      .map(category=>{
 
 
-      return `
-        <button
-          type="button"
-          class="chip ${isActive}"
-          data-category="${encodeURIComponent(category)}"
-        >
-          ${escapeHtml(category)}
-        </button>
-      `;
+        const isActive =
 
-    })
-    .join('');
+          category === active
+
+            ? 'active'
+
+            : '';
 
 
-  /*
-     Eventos de los botones.
-  */
+
+        return `
+
+          <button
+
+            type="button"
+
+            class="chip ${isActive}"
+
+            data-category="${encodeURIComponent(category)}"
+
+          >
+
+            ${escapeHtml(category)}
+
+          </button>
+
+        `;
+
+      })
+
+      .join('');
+
+
+
+  /* EVENTOS */
 
   catsEl
+
     .querySelectorAll('.chip')
+
     .forEach(button=>{
 
+
       button.addEventListener(
+
         'click',
+
         function(){
 
+
+          /* CATEGORIA */
+
           const category =
+
             decodeURIComponent(
+
               this.dataset.category
+
             );
 
 
-          /*
-             Cambiar categoría activa.
-          */
 
           active = category;
 
 
-          /*
-             Actualizar botones.
-          */
+
+          /* ACTUALIZAR CATEGORIAS */
 
           renderCats();
 
 
-          /*
-             Actualizar productos.
-          */
+
+          /* ACTUALIZAR PRODUCTOS */
 
           render();
 
 
-          /*
-             Volver al inicio del catálogo.
-          */
+
+          /* SUBIR AL CATALOGO */
 
           document
+
             .getElementById('catalogo')
+
             .scrollIntoView({
+
               behavior:'smooth',
+
               block:'start'
+
             });
 
         }
+
       );
 
     });
@@ -976,114 +1843,141 @@ function renderCats(){
 }
 
 
-/* ==========================================
+
+/* =========================================================
    MOSTRAR PRODUCTOS
-========================================== */
+========================================================= */
 
 function render(){
 
+
+  /* BUSQUEDA */
+
   const q =
+
     search.value
+
       .toLowerCase()
+
       .trim();
 
 
-  /*
-     ==================================================
-     FILTRADO
-     ==================================================
 
-     Filtra por:
+  /* FILTRAR */
 
-     - categoría
-     - nombre
-     - marca
-     - presentación
-     - active
-  */
+  const list =
 
-  const list = products.filter(product=>{
-
-    const category =
-      String(product.category || '').trim();
+    products.filter(product=>{
 
 
-    const name =
-      String(product.name || '');
+      const category =
+
+        String(
+          product.category || ''
+        ).trim();
 
 
-    const brand =
-      String(product.brand || '');
+
+      const name =
+
+        String(
+          product.name || ''
+        );
 
 
-    const presentation =
-      String(product.presentation || '');
+
+      const brand =
+
+        String(
+          product.brand || ''
+        );
 
 
-    /*
-       Categoría seleccionada.
-    */
 
-    const matchesCategory =
-      active === 'Todos' ||
-      category === active;
+      const presentation =
 
-
-    /*
-       Texto que utilizará el buscador.
-    */
-
-    const searchText =
-      `${name} ${brand} ${category} ${presentation}`
-        .toLowerCase();
+        String(
+          product.presentation || ''
+        );
 
 
-    const matchesSearch =
-      !q ||
-      searchText.includes(q);
+
+      /* CATEGORIA */
+
+      const matchesCategory =
+
+        active === 'Todos' ||
+
+        category === active;
 
 
-    /*
-       Solo mostramos productos activos.
-    */
 
-    return (
-      product.active !== false &&
-      matchesCategory &&
-      matchesSearch
-    );
+      /* TEXTO BUSCADOR */
 
-  });
+      const searchText =
+
+        `${name} ${brand} ${category} ${presentation}`
+
+          .toLowerCase();
 
 
-  /*
-     Titulo de la sección.
-  */
+
+      const matchesSearch =
+
+        !q ||
+
+        searchText.includes(q);
+
+
+
+      /* PRODUCTO ACTIVO */
+
+      return (
+
+        product.active !== false &&
+
+        matchesCategory &&
+
+        matchesSearch
+
+      );
+
+    });
+
+
+
+  /* TITULO */
 
   title.textContent =
+
     active === 'Todos'
+
       ? 'Todos'
+
       : active;
 
 
-  /*
-     Cantidad de productos.
-  */
+
+  /* CONTADOR */
 
   count.textContent =
+
     `${list.length} productos`;
 
 
-  /*
-     Si no hay resultados.
-  */
+
+  /* SIN RESULTADOS */
 
   if(!list.length){
 
     grid.innerHTML = `
+
       <div class="message">
+
         No encontramos productos.
+
       </div>
+
     `;
 
     return;
@@ -1091,205 +1985,312 @@ function render(){
   }
 
 
-  /*
-     ==================================================
+
+  /* =======================================================
      CREAR TARJETAS
-     ==================================================
-  */
+  ======================================================= */
 
-  grid.innerHTML = list
-    .map(product=>{
+  grid.innerHTML =
 
-      /*
-         Imagen
-      */
+    list
 
-      const image =
-        getImageUrl(
-          product.image_url
-        );
+      .map(product=>{
 
 
-      /*
-         Nombre
-      */
+        /* IMAGEN */
 
-      const name =
-        escapeHtml(
-          product.name || 'Producto'
-        );
+        const image =
 
+          getImageUrl(
 
-      /*
-         Categoria
-      */
+            product.image_url
 
-      const category =
-        escapeHtml(
-          product.category || ''
-        );
+          );
 
 
-      /*
-         Marca
-      */
 
-      const brand =
-        escapeHtml(
-          product.brand || ''
-        );
+        /* NOMBRE */
 
+        const name =
 
-      /*
-         Presentación
-      */
+          escapeHtml(
 
-      const presentation =
-        escapeHtml(
-          product.presentation || ''
-        );
+            product.name ||
+
+            'Producto'
+
+          );
 
 
-      /*
-         Precio
-      */
 
-      const price =
-        product.price !== null &&
-        product.price !== undefined &&
-        product.price !== ''
-          ? '$' +
-            Number(product.price)
-              .toFixed(2)
-          : 'Consultar';
+        /* CATEGORIA */
+
+        const category =
+
+          escapeHtml(
+
+            product.category || ''
+
+          );
 
 
-      /*
-         ==================================================
-         MENSAJE WHATSAPP
-         ==================================================
-      */
 
-      const whatsappText =
-        'Hola, estoy interesado en ' +
-        (product.name || 'este producto') +
-        (
-          product.presentation
-            ? ' (' +
-              String(product.presentation)
-                .toLowerCase() +
-              ')'
-            : ''
-        ) +
-        '. ¿Sigue disponible?';
+        /* MARCA */
+
+        const brand =
+
+          escapeHtml(
+
+            product.brand || ''
+
+          );
 
 
-      const whatsappUrl =
-        'https://wa.me/593968543741?text=' +
-        encodeURIComponent(
-          whatsappText
-        );
+
+        /* PRESENTACION */
+
+        const presentation =
+
+          escapeHtml(
+
+            product.presentation || ''
+
+          );
 
 
-      /*
-         ==================================================
-         TARJETA
-         ==================================================
-      */
 
-      return `
+        /* PRECIO */
 
-        <article class="card">
+        const price =
 
-          <div class="photo">
+          product.price !== null &&
 
-            ${
-              image
-                ? `
-                  <img
-                    loading="lazy"
-                    src="${image}"
-                    alt="${name}"
-                    
-                  >
-                `
-                : ''
-            }
+          product.price !== undefined &&
 
-          </div>
+          product.price !== ''
+
+            ? '$' +
+
+              Number(product.price)
+
+                .toFixed(2)
+
+            : 'Consultar';
 
 
-          <div class="info">
 
-            <div class="cat">
-              ${category}
+        /* =================================================
+           MENSAJE WHATSAPP
+        ================================================= */
+
+        const whatsappText =
+
+          'Hola, estoy interesado en ' +
+
+          (
+
+            product.name ||
+
+            'este producto'
+
+          ) +
+
+          (
+
+            product.presentation
+
+              ? ' (' +
+
+                String(
+                  product.presentation
+                ).toLowerCase() +
+
+                ')'
+
+              : ''
+
+          ) +
+
+          '. ¿Sigue disponible?';
+
+
+
+        const whatsappUrl =
+
+          'https://wa.me/593968543741?text=' +
+
+          encodeURIComponent(
+
+            whatsappText
+
+          );
+
+
+
+        /* =================================================
+           TARJETA
+        ================================================= */
+
+        return `
+
+          <article class="card">
+
+
+            <!-- FOTO -->
+
+            <div class="photo">
+
+              ${
+
+                image
+
+                  ? `
+
+                    <img
+
+                      loading="lazy"
+
+                      src="${image}"
+
+                      alt="${name}"
+
+                    >
+
+                  `
+
+                  : ''
+
+              }
+
             </div>
 
 
-            ${
-              brand
-                ? `
-                  <div class="brandName">
-                    ${brand}
-                  </div>
-                `
-                : ''
-            }
+
+            <!-- INFORMACION -->
+
+            <div class="info">
 
 
-            <div class="name">
-              ${name}
+              <!-- CATEGORIA -->
+
+              <div class="cat">
+
+                ${category}
+
+              </div>
+
+
+
+              <!-- MARCA -->
+
+              ${
+
+                brand
+
+                  ? `
+
+                    <div class="brandName">
+
+                      ${brand}
+
+                    </div>
+
+                  `
+
+                  : ''
+
+              }
+
+
+
+              <!-- NOMBRE -->
+
+              <div class="name">
+
+                ${name}
+
+              </div>
+
+
+
+              <!-- PRESENTACION -->
+
+              <div class="spec">
+
+                ${presentation}
+
+              </div>
+
+
+
+              <!-- PRECIO -->
+
+              <div class="price">
+
+                ${price}
+
+              </div>
+
+
+
+              <!-- COMPRAR -->
+
+              <a
+
+                class="buy"
+
+                target="_blank"
+
+                rel="noopener"
+
+                href="${whatsappUrl}"
+
+              >
+
+                COMPRAR POR WHATSAPP
+
+              </a>
+
+
             </div>
 
 
-            <div class="spec">
-              ${presentation}
-            </div>
+          </article>
 
+        `;
 
-            <div class="price">
-              ${price}
-            </div>
+      })
 
-
-            <a
-              class="buy"
-              target="_blank"
-              rel="noopener"
-              href="${whatsappUrl}"
-            >
-              COMPRAR POR WHATSAPP
-            </a>
-
-          </div>
-
-        </article>
-
-      `;
-
-    })
-    .join('');
+      .join('');
 
 }
 
 
-/* ==========================================
+
+/* =========================================================
    BUSCADOR
-========================================== */
+========================================================= */
 
 search.addEventListener(
+
   'input',
+
   render
+
 );
 
 
-/* ==========================================
+
+/* =========================================================
    INICIAR CATALOGO
-========================================== */
+========================================================= */
 
 load();
 
+
 </script>
 
+
 </body>
+
 </html>
