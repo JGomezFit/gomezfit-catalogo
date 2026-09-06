@@ -1,1619 +1,2474 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>GomezFit | Suplementación Deportiva</title>
+<meta charset="utf-8">
 
-  <meta
-    name="description"
-    content="GomezFit - Suplementación deportiva y asesoría para ayudarte a elegir lo que realmente necesitas."
-  >
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>GOMEZFIT | Catálogo</title>
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  >
 
-  <!-- Font Awesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  >
+<!-- SUPABASE -->
 
-  <style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    /* =========================================================
-       RESET
-    ========================================================= */
+<script src="config.js"></script>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
 
-    html {
-      scroll-behavior: smooth;
-    }
+<!-- ICONOS REALES -->
 
-    body {
-      font-family: "Montserrat", sans-serif;
-      background: #090909;
-      color: #ffffff;
-      min-height: 100vh;
-    }
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
 
-    img {
-      max-width: 100%;
-      display: block;
-    }
 
-    button,
-    input {
-      font-family: inherit;
-    }
+<!-- FUENTE -->
 
+<style>
 
-    /* =========================================================
-       VARIABLES
-    ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
-    :root {
-      --black: #090909;
-      --black-2: #111111;
-      --black-3: #181818;
 
-      --gold: #d6aa3d;
-      --gold-light: #e8c568;
+/* =========================================================
+   RESET
+========================================================= */
 
-      --white: #ffffff;
-      --gray: #b7b7b7;
-      --gray-dark: #777777;
+*{
+  box-sizing:border-box;
+}
 
-      --border: rgba(214, 170, 61, 0.22);
-    }
 
+html{
+  scroll-behavior:smooth;
+}
 
-    /* =========================================================
-       NAVBAR
-    ========================================================= */
 
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+body{
+  margin:0;
 
-      width: 100%;
+  background:#070707;
 
-      background: rgba(8, 8, 8, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+  color:#fff;
 
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    }
+  font-family:
+    Montserrat,
+    Arial,
+    sans-serif;
+}
 
-    .navin {
-      width: min(1200px, calc(100% - 40px));
-      min-height: 64px;
 
-      margin: 0 auto;
+/* =========================================================
+   NAVBAR
+========================================================= */
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+.nav{
 
-      gap: 20px;
-    }
+  position:fixed;
 
+  top:0;
+  left:0;
+  right:0;
 
-    /* =========================================================
-       TEXTO DE MARCA SUPERIOR
-    ========================================================= */
+  z-index:20;
 
-    .brandText {
-      color: #ffffff;
-      text-decoration: none;
+  background:
+    rgba(5,5,5,.78);
 
-      font-size: 17px;
-      font-weight: 900;
+  backdrop-filter:
+    blur(12px);
 
-      letter-spacing: 1px;
-      line-height: 1;
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
 
-      white-space: nowrap;
+}
 
-      flex-shrink: 0;
-    }
 
-    .brandText span {
-      color: var(--gold);
-    }
+.navin{
 
+  max-width:1180px;
 
-    /* =========================================================
-       REDES SOCIALES
-    ========================================================= */
+  margin:auto;
 
-    .contacts {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
+  padding:11px 20px;
 
-      gap: 18px;
+  display:flex;
 
-      margin-left: auto;
-    }
+  align-items:center;
 
-    .contacts a {
-      color: var(--gold);
+  justify-content:space-between;
 
-      text-decoration: none;
+}
 
-      font-size: 20px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+/* =========================================================
+   TEXTO DE MARCA SUPERIOR
+========================================================= */
 
-      transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-    }
+.brandText{
 
-    .contacts a:hover {
-      color: var(--gold-light);
-      transform: translateY(-2px);
-    }
+  color:#fff;
 
+  text-decoration:none;
 
-    /* =========================================================
-       HERO
-    ========================================================= */
+  font-size:16px;
 
-    .hero {
-      position: relative;
+  font-weight:900;
 
-      min-height: 620px;
+  letter-spacing:.7px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  white-space:nowrap;
 
-      overflow: hidden;
+}
 
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.20),
-          rgba(0, 0, 0, 0.78)
-        ),
-        url("assets/cover.png") center center / cover no-repeat;
-    }
 
-    .hero::after {
-      content: "";
+.brandText span{
 
-      position: absolute;
-      inset: 0;
+  color:#d6aa3d;
 
-      background:
-        linear-gradient(
-          to bottom,
-          transparent 55%,
-          #090909 100%
-        );
+  font-weight:700;
 
-      pointer-events: none;
-    }
+}
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
 
-      width: min(900px, calc(100% - 40px));
+/* =========================================================
+   CONTACTOS
+========================================================= */
 
-      text-align: center;
+.contacts{
 
-      padding: 70px 0 90px;
-    }
+  display:flex;
 
-    .hero-logo {
-      width: min(380px, 75vw);
+  gap:16px;
 
-      margin: 0 auto 30px;
+  align-items:center;
 
-      filter:
-        drop-shadow(0 12px 30px rgba(0, 0, 0, 0.65));
-    }
+}
 
-    .hero h1 {
-      font-size: clamp(24px, 4vw, 42px);
 
-      font-weight: 800;
+.contacts a{
 
-      letter-spacing: 1px;
+  color:#d6aa3d;
 
-      margin-bottom: 16px;
-    }
+  text-decoration:none;
 
-    .hero h1 span {
-      color: var(--gold);
-    }
+  font-size:20px;
 
-    .hero p {
-      max-width: 720px;
+  font-weight:700;
 
-      margin: 0 auto;
+  transition:.2s ease;
 
-      color: #eeeeee;
+  display:flex;
 
-      font-size: 16px;
-      line-height: 1.7;
-      font-weight: 500;
-    }
+  align-items:center;
 
-    .hero-button {
-      display: inline-flex;
+  justify-content:center;
 
-      margin-top: 30px;
+}
 
-      padding: 14px 28px;
 
-      border-radius: 5px;
+.contacts a i{
 
-      background: var(--gold);
-      color: #080808;
+  font-size:20px;
 
-      text-decoration: none;
+}
 
-      font-size: 14px;
-      font-weight: 800;
 
-      letter-spacing: 0.4px;
+.contacts a:hover{
 
-      transition:
-        background 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-    }
+  color:#e8c568;
 
-    .hero-button:hover {
-      background: var(--gold-light);
+  transform:translateY(-2px);
 
-      transform: translateY(-2px);
+}
 
-      box-shadow: 0 8px 25px rgba(214, 170, 61, 0.20);
-    }
 
+/* =========================================================
+   HERO
+========================================================= */
 
-    /* =========================================================
-       CATALOGO
-    ========================================================= */
+.hero{
 
-    .catalog {
-      width: min(1200px, calc(100% - 40px));
+  min-height:94vh;
 
-      margin: 0 auto;
+  position:relative;
 
-      padding: 55px 0 80px;
-    }
+  display:flex;
 
-    .catalog-header {
-      text-align: center;
+  align-items:center;
 
-      margin-bottom: 35px;
-    }
+  overflow:hidden;
 
-    .catalog-header h2 {
-      font-size: clamp(26px, 4vw, 38px);
+  background:
 
-      font-weight: 900;
+    url('assets/cover.png')
 
-      margin-bottom: 10px;
-    }
+    center center /
 
-    .catalog-header h2 span {
-      color: var(--gold);
-    }
+    cover
 
-    .catalog-header p {
-      color: var(--gray);
+    no-repeat;
 
-      font-size: 14px;
-      line-height: 1.6;
-    }
+  background-color:#070707;
 
+}
 
-    /* =========================================================
-       BUSCADOR
-    ========================================================= */
 
-    .search-box {
-      position: relative;
+/* CAPA OSCURA */
 
-      width: min(650px, 100%);
+.hero:after{
 
-      margin: 0 auto 28px;
-    }
+  content:"";
 
-    .search-box i {
-      position: absolute;
+  position:absolute;
 
-      left: 16px;
-      top: 50%;
+  inset:0;
 
-      transform: translateY(-50%);
+  z-index:1;
 
-      color: var(--gold);
+  background:
 
-      font-size: 15px;
-    }
+    linear-gradient(
 
-    #searchInput {
-      width: 100%;
+      90deg,
 
-      height: 48px;
+      rgba(0,0,0,.97) 0%,
 
-      padding: 0 18px 0 46px;
+      rgba(0,0,0,.88) 28%,
 
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      rgba(0,0,0,.55) 52%,
 
-      border-radius: 5px;
+      rgba(0,0,0,.18) 76%,
 
-      outline: none;
+      rgba(0,0,0,.55) 100%
 
-      background: #121212;
+    );
 
-      color: #ffffff;
+}
 
-      font-size: 14px;
-    }
 
-    #searchInput::placeholder {
-      color: #777777;
-    }
+/* CONTENIDO HERO */
 
-    #searchInput:focus {
-      border-color: rgba(214, 170, 61, 0.65);
-    }
+.heroIn{
 
+  position:relative;
 
-    /* =========================================================
-       CATEGORIAS
-    ========================================================= */
+  z-index:2;
 
-    .categories {
-      display: flex;
+  max-width:1180px;
 
-      align-items: center;
-      justify-content: center;
+  width:100%;
 
-      flex-wrap: wrap;
+  margin:auto;
 
-      gap: 9px;
+  padding:130px 20px 100px;
 
-      margin-bottom: 35px;
-    }
+}
 
-    .category-btn {
-      border: 1px solid rgba(255, 255, 255, 0.10);
 
-      background: #111111;
+/* LOGO HERO */
 
-      color: #bdbdbd;
+.heroLogo{
 
-      padding: 9px 15px;
+  width:min(310px,62vw);
 
-      border-radius: 4px;
+  height:auto;
 
-      cursor: pointer;
+  display:block;
 
-      font-size: 12px;
-      font-weight: 700;
+  margin-bottom:28px;
 
-      transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
-    }
+  object-fit:contain;
 
-    .category-btn:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
+}
 
-    .category-btn.active {
-      background: var(--gold);
 
-      border-color: var(--gold);
+/* SLOGAN */
 
-      color: #090909;
-    }
+.slogan{
 
+  font-family:
 
-    /* =========================================================
-       PRODUCTOS
-    ========================================================= */
+    Impact,
 
-    .products-grid {
-      display: grid;
+    "Arial Narrow",
 
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    sans-serif;
 
-      gap: 18px;
-    }
+  letter-spacing:1px;
 
-    .product-card {
-      background: #111111;
+  font-size:
 
-      border: 1px solid rgba(255, 255, 255, 0.07);
+    clamp(42px,6vw,72px);
 
-      border-radius: 6px;
+  line-height:.92;
 
-      overflow: hidden;
+  max-width:650px;
 
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-    }
+  margin:0 0 24px;
 
-    .product-card:hover {
-      transform: translateY(-4px);
+  font-weight:900;
 
-      border-color: rgba(214, 170, 61, 0.45);
+}
 
-      box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.35);
-    }
 
-    .product-image {
-      width: 100%;
+/* PALABRA DORADA */
 
-      aspect-ratio: 1 / 1;
+.slogan span{
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  color:#d8ad43;
 
-      background: #ffffff;
+}
 
-      overflow: hidden;
-    }
 
-    .product-image img {
-      width: 100%;
-      height: 100%;
+/* DESCRIPCIÓN */
 
-      object-fit: contain;
+.heroDescription{
 
-      transition: transform 0.3s ease;
-    }
+  max-width:560px;
 
-    .product-card:hover .product-image img {
-      transform: scale(1.03);
-    }
+  color:#e5e5e5;
 
-    .product-info {
-      padding: 15px;
-    }
+  font-size:15px;
 
-    .product-category {
-      color: var(--gold);
+  line-height:1.7;
 
-      font-size: 9px;
-      font-weight: 800;
+  font-weight:500;
 
-      text-transform: uppercase;
+  margin:0 0 30px;
 
-      letter-spacing: 0.7px;
+}
 
-      margin-bottom: 6px;
-    }
 
-    .product-name {
-      color: #ffffff;
+/* =========================================================
+   BOTONES HERO
+========================================================= */
 
-      font-size: 13px;
-      font-weight: 800;
+.cta{
 
-      line-height: 1.4;
+  display:flex;
 
-      min-height: 37px;
+  gap:12px;
 
-      margin-bottom: 7px;
-    }
+  flex-wrap:wrap;
 
-    .product-brand {
-      color: #888888;
+}
 
-      font-size: 10px;
-      font-weight: 600;
 
-      margin-bottom: 4px;
-    }
+.btn{
 
-    .product-presentation {
-      color: #999999;
+  display:inline-flex;
 
-      font-size: 10px;
+  align-items:center;
 
-      margin-bottom: 12px;
-    }
+  justify-content:center;
 
-    .product-bottom {
-      display: flex;
+  padding:14px 20px;
 
-      align-items: center;
-      justify-content: space-between;
+  border-radius:7px;
 
-      gap: 8px;
-    }
+  text-decoration:none;
 
-    .product-price {
-      color: var(--gold);
+  font-weight:900;
 
-      font-size: 17px;
-      font-weight: 900;
-    }
+  font-size:11px;
 
-    .buy-btn {
-      display: inline-flex;
+  letter-spacing:.3px;
 
-      align-items: center;
-      justify-content: center;
+  transition:.2s ease;
 
-      gap: 6px;
+}
 
-      padding: 9px 11px;
 
-      border-radius: 4px;
+.btn:hover{
 
-      background: var(--gold);
+  transform:translateY(-2px);
 
-      color: #090909;
+}
 
-      text-decoration: none;
 
-      font-size: 10px;
-      font-weight: 900;
+/* BOTÓN DORADO */
 
-      white-space: nowrap;
+.gold{
 
-      transition:
-        background 0.2s ease,
-        transform 0.2s ease;
-    }
+  background:#d6aa3d;
 
-    .buy-btn:hover {
-      background: var(--gold-light);
+  color:#080808;
 
-      transform: translateY(-1px);
-    }
+  border:1px solid #d6aa3d;
 
+  box-shadow:
 
-    /* =========================================================
-       ESTADOS
-    ========================================================= */
+    0 8px 25px
 
-    .loading {
-      grid-column: 1 / -1;
+    rgba(214,170,61,.18);
 
-      text-align: center;
+}
 
-      padding: 60px 20px;
 
-      color: #888888;
+.gold:hover{
 
-      font-size: 14px;
-    }
+  background:#e3bc58;
 
-    .no-products {
-      grid-column: 1 / -1;
+}
 
-      text-align: center;
 
-      padding: 60px 20px;
+/* BOTÓN WHATSAPP */
 
-      color: #888888;
+.white{
 
-      font-size: 14px;
-    }
+  background:
 
+    rgba(255,255,255,.06);
 
-    /* =========================================================
-       FOOTER
-    ========================================================= */
+  color:#fff;
 
-    footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border:
 
-      background: #070707;
+    1px solid
 
-      padding: 35px 20px;
-    }
+    rgba(255,255,255,.55);
 
-    .footer-inner {
-      width: min(1200px, 100%);
+  backdrop-filter:
 
-      margin: 0 auto;
+    blur(8px);
 
-      text-align: center;
-    }
+}
 
-    .footer-brand {
-      font-size: 18px;
-      font-weight: 900;
 
-      letter-spacing: 1px;
+.white:hover{
 
-      margin-bottom: 8px;
-    }
+  background:#fff;
 
-    .footer-brand span {
-      color: var(--gold);
-    }
+  color:#080808;
 
-    .footer-slogan {
-      color: #999999;
+}
 
-      font-size: 11px;
 
-      margin-bottom: 18px;
-    }
+/* =========================================================
+   TEXTO INFERIOR HERO
+========================================================= */
 
-    .footer-socials {
-      display: flex;
+.explore{
 
-      justify-content: center;
+  position:absolute;
 
-      gap: 18px;
+  z-index:3;
 
-      margin-bottom: 18px;
-    }
+  bottom:20px;
 
-    .footer-socials a {
-      color: var(--gold);
+  left:50%;
 
-      font-size: 18px;
+  transform:translateX(-50%);
 
-      text-decoration: none;
+  font-size:11px;
 
-      transition: color 0.2s ease;
-    }
+  font-weight:900;
 
-    .footer-socials a:hover {
-      color: var(--gold-light);
-    }
+  letter-spacing:3px;
 
-    .copyright {
-      color: #555555;
+  color:#d6aa3d;
 
-      font-size: 10px;
-    }
+  white-space:nowrap;
 
+  text-align:center;
 
-    /* =========================================================
-       TABLET
-    ========================================================= */
+}
 
-    @media (max-width: 1000px) {
 
-      .products-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+/* =========================================================
+   CATALOGO
+========================================================= */
 
-    }
+.wrap{
 
+  max-width:1180px;
 
-    /* =========================================================
-       MOBILE
-    ========================================================= */
+  margin:auto;
 
-    @media (max-width: 620px) {
+  padding:60px 20px 80px;
 
-      .navin {
-        width: calc(100% - 28px);
+}
 
-        min-height: 58px;
 
-        gap: 10px;
-      }
+/* =========================================================
+   BUSCADOR
+========================================================= */
 
-      .brandText {
-        font-size: 14px;
+.tools{
 
-        letter-spacing: 0.7px;
-      }
+  display:flex;
 
-      .contacts {
-        gap: 15px;
-      }
+  gap:10px;
 
-      .contacts a {
-        font-size: 21px;
-      }
+  margin-bottom:14px;
 
+}
 
-      /* HERO */
 
-      .hero {
-        min-height: 540px;
-      }
+.search{
 
-      .hero-content {
-        width: calc(100% - 28px);
+  width:100%;
 
-        padding: 55px 0 75px;
-      }
+  background:#111;
 
-      .hero-logo {
-        width: min(310px, 78vw);
+  border:1px solid #333;
 
-        margin-bottom: 25px;
-      }
+  color:#fff;
 
-      .hero p {
-        font-size: 13px;
+  padding:14px 16px;
 
-        line-height: 1.65;
-      }
+  border-radius:8px;
 
-      .hero-button {
-        margin-top: 25px;
+  font-size:14px;
 
-        padding: 13px 22px;
+  outline:none;
 
-        font-size: 12px;
-      }
+}
 
 
-      /* CATALOGO */
+.search:focus{
 
-      .catalog {
-        width: calc(100% - 28px);
+  border-color:#d6aa3d;
 
-        padding: 45px 0 65px;
-      }
+}
 
-      .catalog-header {
-        margin-bottom: 27px;
-      }
 
-      .catalog-header h2 {
-        font-size: 25px;
-      }
+.search::placeholder{
 
-      .catalog-header p {
-        font-size: 12px;
-      }
+  color:#777;
 
+}
 
-      /* BUSCADOR */
 
-      #searchInput {
-        height: 45px;
+/* =========================================================
+   CATEGORIAS
+========================================================= */
 
-        font-size: 12px;
-      }
+.cats{
 
+  display:flex;
 
-      /* CATEGORIAS */
+  gap:8px;
 
-      .categories {
-        justify-content: flex-start;
+  overflow-x:auto;
 
-        overflow-x: auto;
+  padding:5px 0 15px;
 
-        flex-wrap: nowrap;
+  scrollbar-width:auto;
 
-        padding-bottom: 5px;
+}
 
-        scrollbar-width: none;
-      }
 
-      .categories::-webkit-scrollbar {
-        display: none;
-      }
+.chip{
 
-      .category-btn {
-        flex-shrink: 0;
+  white-space:nowrap;
 
-        padding: 8px 12px;
+  background:#111;
 
-        font-size: 10px;
-      }
+  border:1px solid #333;
 
+  color:#ddd;
 
-      /* PRODUCTOS */
+  padding:9px 13px;
 
-      .products-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-radius:999px;
 
-        gap: 10px;
-      }
+  font-size:11px;
 
-      .product-info {
-        padding: 11px;
-      }
+  font-weight:800;
 
-      .product-name {
-        font-size: 11px;
+  cursor:pointer;
 
-        min-height: 32px;
+  transition:.2s;
 
-        line-height: 1.35;
-      }
+}
 
-      .product-brand {
-        font-size: 9px;
-      }
 
-      .product-presentation {
-        font-size: 9px;
+.chip:hover,
+.chip.active{
 
-        margin-bottom: 10px;
-      }
+  background:#d6aa3d;
 
-      .product-price {
-        font-size: 14px;
-      }
+  color:#070707;
 
-      .buy-btn {
-        padding: 8px 9px;
+  border-color:#d6aa3d;
 
-        font-size: 8px;
-      }
+}
 
-    }
 
+/* =========================================================
+   TITULO
+========================================================= */
 
-    /* =========================================================
-       TELEFONOS PEQUEÑOS
-    ========================================================= */
+.heading{
 
-    @media (max-width: 400px) {
+  display:flex;
 
-      .navin {
-        width: calc(100% - 20px);
-      }
+  justify-content:space-between;
 
-      .brandText {
-        font-size: 12px;
+  align-items:end;
 
-        letter-spacing: 0.45px;
-      }
+  margin:15px 0;
 
-      .contacts {
-        gap: 12px;
-      }
+}
 
-      .contacts a {
-        font-size: 19px;
-      }
 
-      .hero {
-        min-height: 500px;
-      }
+.heading h2{
 
-      .hero-logo {
-        width: 75vw;
-      }
+  font-size:28px;
 
-      .product-name {
-        font-size: 10px;
-      }
+  margin:0;
 
-      .product-price {
-        font-size: 13px;
-      }
+  font-weight:900;
 
-      .buy-btn {
-        padding: 7px 8px;
+}
 
-        font-size: 7px;
-      }
 
-    }
+.count{
 
-  </style>
+  font-size:11px;
+
+  color:#888;
+
+}
+
+
+/* =========================================================
+   PRODUCTOS
+========================================================= */
+
+.grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:14px;
+
+}
+
+
+.card{
+
+  background:#101010;
+
+  border:1px solid #222;
+
+  border-radius:12px;
+
+  overflow:hidden;
+
+  transition:.2s ease;
+
+}
+
+
+.card:hover{
+
+  transform:translateY(-3px);
+
+  border-color:#333;
+
+}
+
+
+/* FOTO */
+
+.photo{
+
+  aspect-ratio:1;
+
+  background:#000;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  overflow:hidden;
+
+}
+
+
+.photo img{
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:contain;
+
+  display:block;
+
+}
+
+
+/* INFO */
+
+.info{
+
+  padding:13px;
+
+}
+
+
+/* CATEGORIA */
+
+.cat{
+
+  font-size:9px;
+
+  color:#b89543;
+
+  font-weight:800;
+
+  text-transform:uppercase;
+
+  letter-spacing:1px;
+
+}
+
+
+/* MARCA */
+
+.brandName{
+
+  color:#ddd;
+
+  font-size:10px;
+
+  font-weight:700;
+
+  margin-top:4px;
+
+  min-height:14px;
+
+}
+
+
+/* NOMBRE */
+
+.name{
+
+  font-weight:900;
+
+  font-size:14px;
+
+  margin-top:6px;
+
+  min-height:35px;
+
+}
+
+
+/* PRESENTACION */
+
+.spec{
+
+  color:#888;
+
+  font-size:10px;
+
+  min-height:25px;
+
+}
+
+
+/* PRECIO */
+
+.price{
+
+  font-size:22px;
+
+  font-weight:900;
+
+  color:#d6aa3d;
+
+  margin:8px 0 11px;
+
+}
+
+
+/* COMPRAR */
+
+.buy{
+
+  display:block;
+
+  text-align:center;
+
+  background:#fff;
+
+  color:#070707;
+
+  text-decoration:none;
+
+  padding:10px;
+
+  border-radius:6px;
+
+  font-size:10px;
+
+  font-weight:900;
+
+  transition:.2s ease;
+
+}
+
+
+.buy:hover{
+
+  background:#d6aa3d;
+
+}
+
+
+/* =========================================================
+   MENSAJES
+========================================================= */
+
+.message{
+
+  color:#888;
+
+  padding:30px;
+
+  text-align:center;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+  text-align:center;
+
+  padding:28px;
+
+  color:#777;
+
+  border-top:1px solid #222;
+
+  font-size:11px;
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:850px){
+
+  .grid{
+
+    grid-template-columns:
+      repeat(3,1fr);
+
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media(max-width:620px){
+
+  /* =======================================================
+     NAVBAR CELULAR
+  ======================================================= */
+
+  .navin{
+
+    padding:
+      9px 14px;
+
+  }
+
+
+  .brandText{
+
+    font-size:12px;
+
+    letter-spacing:.35px;
+
+  }
+
+
+  .brandText span{
+
+    font-weight:600;
+
+  }
+
+
+  .contacts{
+
+    gap:14px;
+
+  }
+
+
+  .contacts a{
+
+    color:#d6aa3d;
+
+    font-size:22px;
+
+    width:24px;
+
+    height:30px;
+
+  }
+
+
+  .contacts a i{
+
+    font-size:22px;
+
+  }
+
+
+  .contacts a:hover{
+
+    color:#e8c568;
+
+  }
+
+
+  /* =======================================================
+     HERO
+  ======================================================= */
+
+  .hero{
+
+    min-height:92vh;
+
+    background-position:
+
+      62% center;
+
+  }
+
+
+  .hero:after{
+
+    background:
+
+      linear-gradient(
+
+        180deg,
+
+        rgba(0,0,0,.92) 0%,
+
+        rgba(0,0,0,.78) 42%,
+
+        rgba(0,0,0,.48) 75%,
+
+        rgba(0,0,0,.75) 100%
+
+      );
+
+  }
+
+
+  .heroIn{
+
+    padding:
+
+      125px 20px 85px;
+
+  }
+
+
+  .heroLogo{
+
+    width:
+
+      min(260px,72vw);
+
+    margin-bottom:25px;
+
+  }
+
+
+  .slogan{
+
+    font-size:46px;
+
+    line-height:.92;
+
+    margin-bottom:22px;
+
+  }
+
+
+  .heroDescription{
+
+    max-width:430px;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+    margin-bottom:25px;
+
+  }
+
+
+  .cta{
+
+    gap:8px;
+
+  }
+
+
+  .btn{
+
+    padding:12px 15px;
+
+    font-size:10px;
+
+  }
+
+
+  .explore{
+
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    bottom:18px;
+
+  }
+
+
+  /* =======================================================
+     PRODUCTOS
+  ======================================================= */
+
+  .grid{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+    gap:9px;
+
+  }
+
+
+  /* =======================================================
+     CATALOGO
+  ======================================================= */
+
+  .wrap{
+
+    padding:
+
+      45px 12px 60px;
+
+  }
+
+
+  .heading h2{
+
+    font-size:23px;
+
+  }
+
+
+  .count{
+
+    font-size:10px;
+
+  }
+
+
+  .name{
+
+    font-size:13px;
+
+    line-height:1.25;
+
+  }
+
+
+  .price{
+
+    font-size:19px;
+
+  }
+
+
+  .buy{
+
+    font-size:9px;
+
+    padding:9px 5px;
+
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR PEQUEÑO
+========================================================= */
+
+@media(max-width:400px){
+
+  .navin{
+
+    padding:
+
+      8px 12px;
+
+  }
+
+
+  .brandText{
+
+    font-size:10px;
+
+    letter-spacing:.2px;
+
+  }
+
+
+  .brandText span{
+
+    font-weight:600;
+
+  }
+
+
+  .contacts{
+
+    gap:11px;
+
+  }
+
+
+  .contacts a{
+
+    width:23px;
+
+    font-size:20px;
+
+  }
+
+
+  .contacts a i{
+
+    font-size:20px;
+
+  }
+
+
+  .heroLogo{
+
+    width:220px;
+
+  }
+
+
+  .slogan{
+
+    font-size:40px;
+
+  }
+
+
+  .heroDescription{
+
+    font-size:12px;
+
+  }
+
+
+  .btn{
+
+    width:100%;
+
+  }
+
+}
+
+</style>
+
 </head>
 
 
 <body>
 
 
-  <!-- =======================================================
-       NAVBAR
-  ======================================================== -->
+<!-- =======================================================
+     NAVBAR
+======================================================= -->
 
-  <nav class="nav">
+<nav class="nav">
 
-    <div class="navin">
+  <div class="navin">
 
-      <!--
-        Antes estaba aquí:
-        <img class="brand" src="assets/logo.png">
 
-        Ahora usamos una firma de marca para no repetir
-        el logo grande que aparece en la portada.
-      -->
+    <!-- IDENTIDAD DE MARCA -->
 
-      <a href="#" class="brandText" aria-label="GomezFit">
-        GOMEZFIT <span>| SUPLEMENTACIÓN DEPORTIVA</span>
+    <a
+      href="#"
+      class="brandText"
+      aria-label="GomezFit"
+    >
+      GOMEZFIT <span>| SUPLEMENTACIÓN DEPORTIVA</span>
+    </a>
+
+
+    <!-- CONTACTOS / REDES -->
+
+    <div class="contacts">
+
+
+      <!-- WHATSAPP -->
+
+      <a
+        href="https://wa.me/593968543741"
+        target="_blank"
+        rel="noopener"
+        aria-label="WhatsApp"
+        title="WhatsApp"
+      >
+
+        <i class="fa-brands fa-whatsapp"></i>
+
       </a>
 
 
-      <div class="contacts">
+      <!-- INSTAGRAM -->
 
-        <!-- WhatsApp -->
-        <a
-          href="https://wa.me/593968543741"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp"
-        >
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
-
-        <!-- Instagram -->
-        <a
-          href="https://instagram.com/jgomez.fit"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram"
-        >
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-
-        <!-- TikTok -->
-        <a
-          href="https://tiktok.com/@jgomez_fit"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="TikTok"
-        >
-          <i class="fa-brands fa-tiktok"></i>
-        </a>
-
-      </div>
-
-    </div>
-
-  </nav>
-
-
-
-  <!-- =======================================================
-       HERO / PORTADA
-  ======================================================== -->
-
-  <section class="hero">
-
-    <div class="hero-content">
-
-      <!-- Logo grande de GomezFit -->
-      <img
-        src="assets/logo.png"
-        alt="GomezFit"
-        class="hero-logo"
+      <a
+        href="https://www.instagram.com/jgomez.fit/"
+        target="_blank"
+        rel="noopener"
+        aria-label="Instagram"
+        title="Instagram"
       >
 
-      <h1>
-        CONOCE. ENTRENA. <span>EVOLUCIONA.</span>
-      </h1>
+        <i class="fa-brands fa-instagram"></i>
 
-      <p>
-        Encuentra la suplementación que necesitas y recibe
-        orientación durante todo tu proceso para elegir
-        de acuerdo con tus objetivos, entrenamiento y presupuesto.
-      </p>
-
-      <a href="#catalogo" class="hero-button">
-        EXPLORAR PRODUCTOS
       </a>
 
-    </div>
 
-  </section>
+      <!-- TIKTOK -->
 
-
-
-  <!-- =======================================================
-       CATALOGO
-  ======================================================== -->
-
-  <main class="catalog" id="catalogo">
-
-    <div class="catalog-header">
-
-      <h2>
-        EXPLORA NUESTROS <span>PRODUCTOS</span>
-      </h2>
-
-      <p>
-        Suplementación deportiva seleccionada para acompañar tu proceso.
-      </p>
-
-    </div>
-
-
-    <!-- BUSCADOR -->
-
-    <div class="search-box">
-
-      <i class="fa-solid fa-magnifying-glass"></i>
-
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Buscar producto..."
-        autocomplete="off"
+      <a
+        href="https://www.tiktok.com/@jgomez_fit"
+        target="_blank"
+        rel="noopener"
+        aria-label="TikTok"
+        title="TikTok"
       >
 
+        <i class="fa-brands fa-tiktok"></i>
+
+      </a>
+
+
     </div>
 
+  </div>
 
-    <!-- CATEGORIAS -->
+</nav>
 
-    <div
-      class="categories"
-      id="categories"
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section class="hero">
+
+
+  <div class="heroIn">
+
+
+    <!-- LOGO GRANDE: SE MANTIENE -->
+
+    <img
+      src="assets/logo.png"
+      class="heroLogo"
+      alt="GOMEZFIT"
     >
-      <button
-        class="category-btn active"
-        data-category="Todos"
+
+
+    <!-- SLOGAN -->
+
+    <h1 class="slogan">
+
+      CONOCE
+
+      <span>ENTRENA</span>
+
+      Y EVOLUCIONA
+
+    </h1>
+
+
+    <!-- DESCRIPCION -->
+
+    <p class="heroDescription">
+
+      Encuentra el suplemento que necesitas
+      y recibe orientación durante todo tu proceso.
+
+    </p>
+
+
+    <!-- BOTONES -->
+
+    <div class="cta">
+
+
+      <!-- VER CATALOGO -->
+
+      <a
+        class="btn gold"
+        href="#catalogo"
       >
-        Todo
-      </button>
+
+        VER CATÁLOGO
+
+      </a>
+
+
+      <!-- WHATSAPP -->
+
+      <a
+        class="btn white"
+        href="https://wa.me/593968543741"
+        target="_blank"
+        rel="noopener"
+      >
+
+        COMPRAR POR WHATSAPP
+
+      </a>
+
+
     </div>
 
 
-    <!-- PRODUCTOS -->
+  </div>
 
-    <div
-      class="products-grid"
-      id="productsGrid"
+
+  <!-- TEXTO INFERIOR -->
+
+  <div class="explore">
+
+    EXPLORA NUESTROS PRODUCTOS ↓
+
+  </div>
+
+
+</section>
+
+
+
+<!-- =======================================================
+     CATALOGO
+======================================================= -->
+
+<main
+  class="wrap"
+  id="catalogo"
+>
+
+
+  <!-- BUSCADOR -->
+
+  <div class="tools">
+
+    <input
+      id="search"
+      class="search"
+      type="search"
+      placeholder="🔎 Buscar por nombre, marca o categoría..."
+      autocomplete="off"
     >
 
-      <div class="loading">
-        Cargando productos...
+  </div>
+
+
+
+  <!-- CATEGORIAS -->
+
+  <div
+    id="cats"
+    class="cats"
+  ></div>
+
+
+
+  <!-- TITULO -->
+
+  <div class="heading">
+
+    <h2 id="title">
+
+      Todos
+
+    </h2>
+
+
+    <span
+      id="count"
+      class="count"
+    ></span>
+
+  </div>
+
+
+
+  <!-- PRODUCTOS -->
+
+  <div
+    id="grid"
+    class="grid"
+  ></div>
+
+
+</main>
+
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer>
+
+  GOMEZFIT · Conocimiento · Acompañamiento · Rendimiento
+
+</footer>
+
+
+
+<!-- =======================================================
+     JAVASCRIPT
+======================================================= -->
+
+<script>
+
+
+/* =========================================================
+   CONFIGURACION SUPABASE
+========================================================= */
+
+const cfg =
+  window.GOMEZFIT_CONFIG || {};
+
+
+let sb = null;
+
+
+let products = [];
+
+
+let active = 'Todos';
+
+
+
+/* =========================================================
+   ELEMENTOS HTML
+========================================================= */
+
+const search =
+  document.getElementById('search');
+
+
+const catsEl =
+  document.getElementById('cats');
+
+
+const grid =
+  document.getElementById('grid');
+
+
+const title =
+  document.getElementById('title');
+
+
+const count =
+  document.getElementById('count');
+
+
+
+/* =========================================================
+   CREAR CLIENTE SUPABASE
+========================================================= */
+
+if(
+
+  cfg.SUPABASE_URL &&
+
+  cfg.SUPABASE_PUBLISHABLE_KEY &&
+
+  !cfg.SUPABASE_URL.includes('PEGA_AQUI')
+
+){
+
+  sb =
+    supabase.createClient(
+
+      cfg.SUPABASE_URL,
+
+      cfg.SUPABASE_PUBLISHABLE_KEY
+
+    );
+
+}
+
+
+
+/* =========================================================
+   ESCAPAR HTML
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? '')
+
+    .replace(/&/g,'&amp;')
+
+    .replace(/</g,'&lt;')
+
+    .replace(/>/g,'&gt;')
+
+    .replace(/"/g,'&quot;')
+
+    .replace(/'/g,'&#039;');
+
+}
+
+
+
+/* =========================================================
+   CONVERTIR IMAGEN A URL PUBLICA
+========================================================= */
+
+function getImageUrl(imageUrl){
+
+
+  if(!imageUrl){
+
+    return '';
+
+  }
+
+
+  imageUrl =
+    String(imageUrl).trim();
+
+
+
+  /* URL COMPLETA */
+
+  if(
+
+    imageUrl.startsWith('http://') ||
+
+    imageUrl.startsWith('https://')
+
+  ){
+
+    return imageUrl;
+
+  }
+
+
+
+  /* BASE64 */
+
+  if(
+
+    imageUrl.startsWith('data:')
+
+  ){
+
+    return imageUrl;
+
+  }
+
+
+
+  /* NOMBRE DEL ARCHIVO */
+
+  const fileName =
+
+    imageUrl
+
+      .split('/')
+
+      .pop();
+
+
+
+  const baseUrl =
+
+    String(
+
+      cfg.SUPABASE_URL || ''
+
+    )
+
+      .replace(/\/$/,'');
+
+
+
+  if(!baseUrl){
+
+    return '';
+
+  }
+
+
+
+  return (
+
+    baseUrl +
+
+    '/storage/v1/object/public/product-images/' +
+
+    encodeURIComponent(fileName)
+
+  );
+
+}
+
+
+
+/* =========================================================
+   CARGAR PRODUCTOS
+========================================================= */
+
+async function load(){
+
+
+  /* SUPABASE NO CONFIGURADO */
+
+  if(
+
+    !cfg.SUPABASE_URL ||
+
+    cfg.SUPABASE_URL.includes('PEGA_AQUI')
+
+  ){
+
+    grid.innerHTML = `
+
+      <div class="message">
+
+        Configura Supabase en config.js
+        para cargar el catálogo online.
+
       </div>
 
-    </div>
+    `;
 
-  </main>
+    return;
 
-
-
-  <!-- =======================================================
-       FOOTER
-  ======================================================== -->
-
-  <footer>
-
-    <div class="footer-inner">
-
-      <div class="footer-brand">
-        GOMEZ<span>FIT</span>
-      </div>
-
-      <div class="footer-slogan">
-        Conoce. Entrena. Evoluciona.
-      </div>
-
-      <div class="footer-socials">
-
-        <a
-          href="https://wa.me/593968543741"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp"
-        >
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
-
-        <a
-          href="https://instagram.com/jgomez.fit"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram"
-        >
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-
-        <a
-          href="https://tiktok.com/@jgomez_fit"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="TikTok"
-        >
-          <i class="fa-brands fa-tiktok"></i>
-        </a>
-
-      </div>
-
-      <div class="copyright">
-        © 2026 GomezFit. Todos los derechos reservados.
-      </div>
-
-    </div>
-
-  </footer>
+  }
 
 
 
-  <!-- =======================================================
-       SUPABASE
-  ======================================================== -->
+  /* CONSULTAR PRODUCTOS */
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  const {
 
-  <script src="config.js"></script>
+    data,
 
+    error
 
-  <script>
+  } = await sb
 
-    /* =======================================================
-       CONFIGURACION
-    ======================================================== */
+    .from('products')
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
+    .select('*')
+
+    .order(
+
+      'id',
+
+      {ascending:true}
+
     );
 
 
-    /* =======================================================
-       VARIABLES
-    ======================================================== */
 
-    let allProducts = [];
+  /* ERROR */
 
-    let currentCategory = "Todos";
+  if(error){
 
-    let currentSearch = "";
+    grid.innerHTML = `
 
+      <div class="message">
 
-    /* =======================================================
-       ELEMENTOS
-    ======================================================== */
+        No se pudo cargar el catálogo.
+        Revisa la configuración de Supabase.
 
-    const productsGrid =
-      document.getElementById("productsGrid");
+      </div>
 
-    const categoriesContainer =
-      document.getElementById("categories");
+    `;
 
-    const searchInput =
-      document.getElementById("searchInput");
+    console.error(error);
+
+    return;
+
+  }
 
 
-    /* =======================================================
-       WHATSAPP
-    ======================================================== */
 
-    const WHATSAPP_NUMBER = "593968543741";
+  /* GUARDAR PRODUCTOS */
 
-
-    /* =======================================================
-       ESCAPAR HTML
-    ======================================================== */
-
-    function escapeHtml(value) {
-
-      if (value === null || value === undefined) {
-        return "";
-      }
-
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
+  products = data || [];
 
 
-    /* =======================================================
-       URL IMAGEN
-    ======================================================== */
 
-    function getImageUrl(imageName) {
+  /* =======================================================
+     ORDEN DE CATEGORIAS
+  ======================================================= */
 
-      if (!imageName) {
-        return "";
-      }
+  const categoryOrder = [
 
-      /*
-        Si image_url ya es una URL completa,
-        usamos directamente esa URL.
-      */
+    ...new Set(
 
-      if (
-        imageName.startsWith("http://") ||
-        imageName.startsWith("https://")
-      ) {
-        return imageName;
-      }
+      products
 
+        .map(
 
-      /*
-        Si solo tenemos el nombre del archivo,
-        buscamos la imagen dentro del bucket
-        product-images.
-      */
+          product =>
 
-      const {
-        data
-      } = supabaseClient.storage
-        .from("product-images")
-        .getPublicUrl(imageName);
+            String(
 
-      return data?.publicUrl || "";
+              product.category || ''
 
-    }
+            ).trim()
 
-
-    /* =======================================================
-       CARGAR PRODUCTOS
-    ======================================================== */
-
-    async function loadProducts() {
-
-      productsGrid.innerHTML = `
-        <div class="loading">
-          Cargando productos...
-        </div>
-      `;
-
-      try {
-
-        const {
-          data,
-          error
-        } = await supabaseClient
-          .from("products")
-          .select("*")
-          .eq("active", true)
-          .order("sort_order", {
-            ascending: true
-          })
-          .order("id", {
-            ascending: true
-          });
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        allProducts = data || [];
-
-
-        renderCategories();
-
-        renderProducts();
-
-      } catch (error) {
-
-        console.error(
-          "Error cargando productos:",
-          error
-        );
-
-        productsGrid.innerHTML = `
-          <div class="no-products">
-            No se pudieron cargar los productos.
-            <br>
-            Intenta actualizar la página.
-          </div>
-        `;
-
-      }
-
-    }
-
-
-    /* =======================================================
-       CATEGORIAS
-    ======================================================== */
-
-    function renderCategories() {
-
-      const categories = [
-        ...new Set(
-          allProducts
-            .map(product => product.category)
-            .filter(Boolean)
         )
-      ];
+
+        .filter(Boolean)
+
+    )
+
+  ];
 
 
-      categories.sort((a, b) =>
-        String(a).localeCompare(
-          String(b),
-          "es"
-        )
+
+  /* =======================================================
+     ORDEN DE PRODUCTOS
+  ======================================================= */
+
+  products.sort((a,b)=>{
+
+
+    const catA =
+
+      categoryOrder.indexOf(
+
+        String(
+
+          a.category || ''
+
+        ).trim()
+
       );
 
 
-      categoriesContainer.innerHTML = `
-        <button
-          class="category-btn active"
-          data-category="Todos"
-        >
-          Todo
-        </button>
-      `;
+    const catB =
+
+      categoryOrder.indexOf(
+
+        String(
+
+          b.category || ''
+
+        ).trim()
+
+      );
 
 
-      categories.forEach(category => {
 
-        const button =
-          document.createElement("button");
+    /* ORDEN DE CATEGORIA */
 
-        button.className = "category-btn";
+    if(catA !== catB){
 
-        button.dataset.category = category;
-
-        button.textContent = category;
-
-        categoriesContainer.appendChild(button);
-
-      });
-
-
-      document
-        .querySelectorAll(".category-btn")
-        .forEach(button => {
-
-          button.addEventListener(
-            "click",
-            () => {
-
-              document
-                .querySelectorAll(".category-btn")
-                .forEach(btn =>
-                  btn.classList.remove("active")
-                );
-
-
-              button.classList.add("active");
-
-
-              currentCategory =
-                button.dataset.category;
-
-
-              renderProducts();
-
-            }
-          );
-
-        });
+      return catA - catB;
 
     }
 
 
-    /* =======================================================
-       FILTRAR PRODUCTOS
-    ======================================================== */
 
-    function getFilteredProducts() {
+    /* ORDEN DENTRO DE CATEGORIA */
 
-      return allProducts.filter(product => {
+    return (
 
-        const matchesCategory =
-          currentCategory === "Todos" ||
-          product.category === currentCategory;
+      (Number(a.sort_order) || 0)
 
+      -
 
-        const search =
-          currentSearch
-            .trim()
-            .toLowerCase();
+      (Number(b.sort_order) || 0)
+
+    );
+
+  });
 
 
-        if (!search) {
-          return matchesCategory;
+
+  /* CREAR CATEGORIAS */
+
+  renderCats();
+
+
+  /* MOSTRAR PRODUCTOS */
+
+  render();
+
+}
+
+
+
+/* =========================================================
+   CREAR CATEGORIAS
+========================================================= */
+
+function renderCats(){
+
+
+  const categories =
+
+    products
+
+      .map(
+
+        product =>
+
+          String(
+
+            product.category || ''
+
+          ).trim()
+
+      )
+
+      .filter(Boolean);
+
+
+
+  const cats = [
+
+    'Todos',
+
+    ...new Set(categories)
+
+  ];
+
+
+
+  /* VERIFICAR CATEGORIA ACTIVA */
+
+  if(
+
+    active !== 'Todos' &&
+
+    !cats.includes(active)
+
+  ){
+
+    active = 'Todos';
+
+  }
+
+
+
+  /* CREAR BOTONES */
+
+  catsEl.innerHTML =
+
+    cats
+
+      .map(category=>{
+
+
+        const isActive =
+
+          category === active
+
+            ? 'active'
+
+            : '';
+
+
+
+        return `
+
+          <button
+
+            type="button"
+
+            class="chip ${isActive}"
+
+            data-category="${encodeURIComponent(category)}"
+
+          >
+
+            ${escapeHtml(category)}
+
+          </button>
+
+        `;
+
+      })
+
+      .join('');
+
+
+
+  /* EVENTOS */
+
+  catsEl
+
+    .querySelectorAll('.chip')
+
+    .forEach(button=>{
+
+
+      button.addEventListener(
+
+        'click',
+
+        function(){
+
+
+          /* CATEGORIA */
+
+          const category =
+
+            decodeURIComponent(
+
+              this.dataset.category
+
+            );
+
+
+
+          active = category;
+
+
+
+          /* ACTUALIZAR CATEGORIAS */
+
+          renderCats();
+
+
+
+          /* ACTUALIZAR PRODUCTOS */
+
+          render();
+
+
+
+          /* SUBIR AL CATALOGO */
+
+          document
+
+            .getElementById('catalogo')
+
+            .scrollIntoView({
+
+              behavior:'smooth',
+
+              block:'start'
+
+            });
+
         }
 
+      );
 
-        const searchableText = [
+    });
 
-          product.name,
+}
 
-          product.brand,
 
-          product.category,
 
-          product.presentation
+/* =========================================================
+   MOSTRAR PRODUCTOS
+========================================================= */
 
-        ]
-          .filter(Boolean)
-          .join(" ")
+function render(){
+
+
+  /* BUSQUEDA */
+
+  const q =
+
+    search.value
+
+      .toLowerCase()
+
+      .trim();
+
+
+
+  /* FILTRAR */
+
+  const list =
+
+    products.filter(product=>{
+
+
+      const category =
+
+        String(
+
+          product.category || ''
+
+        ).trim();
+
+
+
+      const name =
+
+        String(
+
+          product.name || ''
+
+        );
+
+
+
+      const brand =
+
+        String(
+
+          product.brand || ''
+
+        );
+
+
+
+      const presentation =
+
+        String(
+
+          product.presentation || ''
+
+        );
+
+
+
+      /* CATEGORIA */
+
+      const matchesCategory =
+
+        active === 'Todos' ||
+
+        category === active;
+
+
+
+      /* TEXTO BUSCADOR */
+
+      const searchText =
+
+        `${name} ${brand} ${category} ${presentation}`
+
           .toLowerCase();
 
 
-        return (
-          matchesCategory &&
-          searchableText.includes(search)
-        );
 
-      });
+      const matchesSearch =
 
-    }
+        !q ||
+
+        searchText.includes(q);
 
 
-    /* =======================================================
-       RENDER PRODUCTOS
-    ======================================================== */
 
-    function renderProducts() {
+      /* PRODUCTO ACTIVO */
 
-      const products =
-        getFilteredProducts();
+      return (
 
+        product.active !== false &&
 
-      if (!products.length) {
+        matchesCategory &&
 
-        productsGrid.innerHTML = `
-          <div class="no-products">
-            No encontramos productos con esa búsqueda.
-          </div>
-        `;
+        matchesSearch
 
-        return;
+      );
 
-      }
+    });
 
 
-      productsGrid.innerHTML =
-        products
-          .map(product => {
 
-            const imageUrl =
-              getImageUrl(product.image_url);
+  /* TITULO */
 
+  title.textContent =
 
-            const productName =
-              product.name || "";
+    active === 'Todos'
 
+      ? 'Todos'
 
-            const message =
-              `Hola GomezFit, estoy interesado en ${productName}${product.presentation ? " " + product.presentation : ""}.`;
+      : active;
 
 
-            const whatsappUrl =
-              `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+  /* CONTADOR */
+
+  count.textContent =
+
+    `${list.length} productos`;
 
 
-            return `
 
-              <article class="product-card">
+  /* SIN RESULTADOS */
 
-                <div class="product-image">
+  if(!list.length){
 
-                  ${
-                    imageUrl
-                      ? `
-                        <img
-                          src="${imageUrl}"
-                          alt="${escapeHtml(productName)}"
-                          loading="lazy"
-                          onerror="this.style.display='none'"
-                        >
-                      `
-                      : ""
-                  }
+    grid.innerHTML = `
 
-                </div>
+      <div class="message">
+
+        No encontramos productos.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
 
 
-                <div class="product-info">
 
-                  ${
-                    product.category
-                      ? `
-                        <div class="product-category">
-                          ${escapeHtml(product.category)}
-                        </div>
-                      `
-                      : ""
-                  }
+  /* =======================================================
+     CREAR TARJETAS
+  ======================================================= */
 
+  grid.innerHTML =
 
-                  <div class="product-name">
-                    ${escapeHtml(productName)}
-                  </div>
+    list
+
+      .map(product=>{
 
 
-                  ${
-                    product.brand
-                      ? `
-                        <div class="product-brand">
-                          ${escapeHtml(product.brand)}
-                        </div>
-                      `
-                      : ""
-                  }
+        /* IMAGEN */
+
+        const image =
+
+          getImageUrl(
+
+            product.image_url
+
+          );
 
 
-                  ${
-                    product.presentation
-                      ? `
-                        <div class="product-presentation">
-                          ${escapeHtml(product.presentation)}
-                        </div>
-                      `
-                      : ""
-                  }
+
+        /* NOMBRE */
+
+        const name =
+
+          escapeHtml(
+
+            product.name ||
+
+            'Producto'
+
+          );
 
 
-                  <div class="product-bottom">
 
-                    <div class="product-price">
-                      $${Number(product.price || 0).toFixed(2)}
+        /* CATEGORIA */
+
+        const category =
+
+          escapeHtml(
+
+            product.category || ''
+
+          );
+
+
+
+        /* MARCA */
+
+        const brand =
+
+          escapeHtml(
+
+            product.brand || ''
+
+          );
+
+
+
+        /* PRESENTACION */
+
+        const presentation =
+
+          escapeHtml(
+
+            product.presentation || ''
+
+          );
+
+
+
+        /* PRECIO */
+
+        const price =
+
+          product.price !== null &&
+
+          product.price !== undefined &&
+
+          product.price !== ''
+
+            ? '$' +
+
+              Number(product.price)
+
+                .toFixed(2)
+
+            : 'Consultar';
+
+
+
+        /* =================================================
+           MENSAJE WHATSAPP
+        ================================================= */
+
+        const whatsappText =
+
+          'Hola, estoy interesado en ' +
+
+          (
+
+            product.name ||
+
+            'este producto'
+
+          ) +
+
+          (
+
+            product.presentation
+
+              ? ' (' +
+
+                String(
+
+                  product.presentation
+
+                ).toLowerCase() +
+
+                ')'
+
+              : ''
+
+          ) +
+
+          '. ¿Sigue disponible?';
+
+
+
+        const whatsappUrl =
+
+          'https://wa.me/593968543741?text=' +
+
+          encodeURIComponent(
+
+            whatsappText
+
+          );
+
+
+
+        /* =================================================
+           TARJETA
+        ================================================= */
+
+        return `
+
+          <article class="card">
+
+
+            <!-- FOTO -->
+
+            <div class="photo">
+
+              ${
+
+                image
+
+                  ? `
+
+                    <img
+
+                      loading="lazy"
+
+                      src="${image}"
+
+                      alt="${name}"
+
+                    >
+
+                  `
+
+                  : ''
+
+              }
+
+            </div>
+
+
+
+            <!-- INFORMACION -->
+
+            <div class="info">
+
+
+              <!-- CATEGORIA -->
+
+              <div class="cat">
+
+                ${category}
+
+              </div>
+
+
+
+              <!-- MARCA -->
+
+              ${
+
+                brand
+
+                  ? `
+
+                    <div class="brandName">
+
+                      ${brand}
+
                     </div>
 
+                  `
 
-                    <a
-                      class="buy-btn"
-                      href="${whatsappUrl}"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <i class="fa-brands fa-whatsapp"></i>
-                      COMPRAR
-                    </a>
+                  : ''
 
-                  </div>
-
-                </div>
-
-              </article>
-
-            `;
-
-          })
-          .join("");
-
-    }
+              }
 
 
-    /* =======================================================
-       BUSQUEDA
-    ======================================================== */
 
-    searchInput.addEventListener(
-      "input",
-      function () {
+              <!-- NOMBRE -->
 
-        currentSearch =
-          this.value;
+              <div class="name">
 
-        renderProducts();
+                ${name}
 
-      }
-    );
+              </div>
 
 
-    /* =======================================================
-       INICIAR
-    ======================================================== */
 
-    loadProducts();
+              <!-- PRESENTACION -->
 
-  </script>
+              <div class="spec">
+
+                ${presentation}
+
+              </div>
+
+
+
+              <!-- PRECIO -->
+
+              <div class="price">
+
+                ${price}
+
+              </div>
+
+
+
+              <!-- COMPRAR -->
+
+              <a
+
+                class="buy"
+
+                target="_blank"
+
+                rel="noopener"
+
+                href="${whatsappUrl}"
+
+              >
+
+                COMPRAR POR WHATSAPP
+
+              </a>
+
+
+            </div>
+
+
+          </article>
+
+        `;
+
+      })
+
+      .join('');
+
+}
+
+
+
+/* =========================================================
+   BUSCADOR
+========================================================= */
+
+search.addEventListener(
+
+  'input',
+
+  render
+
+);
+
+
+
+/* =========================================================
+   INICIAR CATALOGO
+========================================================= */
+
+load();
+
+
+</script>
+
 
 </body>
+
 </html>
