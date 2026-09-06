@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="es">
 
@@ -18,6 +19,14 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="config.js"></script>
+
+
+<!-- ICONOS REALES -->
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
 
 
 <!-- FUENTE -->
@@ -122,22 +131,37 @@ body{
 
 .contacts a{
 
-  color:#ddd;
+  color:#d6aa3d;
 
   text-decoration:none;
 
-  font-size:12px;
+  font-size:20px;
 
   font-weight:700;
 
   transition:.2s ease;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+}
+
+
+.contacts a i{
+
+  font-size:20px;
 
 }
 
 
 .contacts a:hover{
 
-  color:#d7ae45;
+  color:#e8c568;
+
+  transform:translateY(-2px);
 
 }
 
@@ -841,51 +865,65 @@ footer{
 
 @media(max-width:620px){
 
-  /* NAVBAR */
+  /* =======================================================
+     NAVBAR CELULAR
+  ======================================================= */
+
+  .navin{
+
+    padding:
+
+      9px 14px;
+
+  }
+
+
+  .brand{
+
+    height:42px;
+
+    max-width:170px;
+
+  }
+
 
   .contacts{
 
-    gap:10px;
+    gap:14px;
 
   }
 
 
   .contacts a{
 
-    font-size:0;
+    color:#d6aa3d;
+
+    font-size:22px;
+
+    width:24px;
+
+    height:30px;
 
   }
 
 
-  .contacts a::before{
+  .contacts a i{
 
-    font-size:18px;
-
-  }
-
-
-  .contacts a:nth-child(1)::before{
-
-    content:"◉";
+    font-size:22px;
 
   }
 
 
-  .contacts a:nth-child(2)::before{
+  .contacts a:hover{
 
-    content:"◎";
-
-  }
-
-
-  .contacts a:nth-child(3)::before{
-
-    content:"♪";
+    color:#e8c568;
 
   }
 
 
-  /* HERO */
+  /* =======================================================
+     HERO
+  ======================================================= */
 
   .hero{
 
@@ -990,7 +1028,9 @@ footer{
   }
 
 
-  /* PRODUCTOS */
+  /* =======================================================
+     PRODUCTOS
+  ======================================================= */
 
   .grid{
 
@@ -1002,7 +1042,9 @@ footer{
   }
 
 
-  /* CATALOGO */
+  /* =======================================================
+     CATALOGO
+  ======================================================= */
 
   .wrap{
 
@@ -1026,6 +1068,31 @@ footer{
 
   }
 
+
+  .name{
+
+    font-size:13px;
+
+    line-height:1.25;
+
+  }
+
+
+  .price{
+
+    font-size:19px;
+
+  }
+
+
+  .buy{
+
+    font-size:9px;
+
+    padding:9px 5px;
+
+  }
+
 }
 
 
@@ -1034,6 +1101,47 @@ footer{
 ========================================================= */
 
 @media(max-width:400px){
+
+  .navin{
+
+    padding:
+
+      8px 12px;
+
+  }
+
+
+  .brand{
+
+    height:39px;
+
+    max-width:150px;
+
+  }
+
+
+  .contacts{
+
+    gap:11px;
+
+  }
+
+
+  .contacts a{
+
+    width:23px;
+
+    font-size:20px;
+
+  }
+
+
+  .contacts a i{
+
+    font-size:20px;
+
+  }
+
 
   .heroLogo{
 
@@ -1090,7 +1198,7 @@ footer{
     >
 
 
-    <!-- CONTACTOS -->
+    <!-- CONTACTOS / REDES -->
 
     <div class="contacts">
 
@@ -1102,8 +1210,11 @@ footer{
         target="_blank"
         rel="noopener"
         aria-label="WhatsApp"
+        title="WhatsApp"
       >
-        WhatsApp
+
+        <i class="fa-brands fa-whatsapp"></i>
+
       </a>
 
 
@@ -1114,8 +1225,11 @@ footer{
         target="_blank"
         rel="noopener"
         aria-label="Instagram"
+        title="Instagram"
       >
-        Instagram
+
+        <i class="fa-brands fa-instagram"></i>
+
       </a>
 
 
@@ -1126,8 +1240,11 @@ footer{
         target="_blank"
         rel="noopener"
         aria-label="TikTok"
+        title="TikTok"
       >
-        TikTok
+
+        <i class="fa-brands fa-tiktok"></i>
+
       </a>
 
 
@@ -1162,11 +1279,11 @@ footer{
 
     <h1 class="slogan">
 
-      CONOCE.
+      CONOCE
 
-      <span>ENTRENA.</span>
+      <span>ENTRENA</span>
 
-      EVOLUCIONA.
+      EVOLUCIONA
 
     </h1>
 
@@ -1550,8 +1667,11 @@ async function load(){
     .select('*')
 
     .order(
+
       'id',
+
       {ascending:true}
+
     );
 
 
@@ -1600,7 +1720,9 @@ async function load(){
           product =>
 
             String(
+
               product.category || ''
+
             ).trim()
 
         )
@@ -1625,7 +1747,9 @@ async function load(){
       categoryOrder.indexOf(
 
         String(
+
           a.category || ''
+
         ).trim()
 
       );
@@ -1636,7 +1760,9 @@ async function load(){
       categoryOrder.indexOf(
 
         String(
+
           b.category || ''
+
         ).trim()
 
       );
@@ -1698,7 +1824,9 @@ function renderCats(){
         product =>
 
           String(
+
             product.category || ''
+
           ).trim()
 
       )
@@ -1873,7 +2001,9 @@ function render(){
       const category =
 
         String(
+
           product.category || ''
+
         ).trim();
 
 
@@ -1881,7 +2011,9 @@ function render(){
       const name =
 
         String(
+
           product.name || ''
+
         );
 
 
@@ -1889,7 +2021,9 @@ function render(){
       const brand =
 
         String(
+
           product.brand || ''
+
         );
 
 
@@ -1897,7 +2031,9 @@ function render(){
       const presentation =
 
         String(
+
           product.presentation || ''
+
         );
 
 
@@ -2102,7 +2238,9 @@ function render(){
               ? ' (' +
 
                 String(
+
                   product.presentation
+
                 ).toLowerCase() +
 
                 ')'
@@ -2294,3 +2432,4 @@ load();
 </body>
 
 </html>
+```
